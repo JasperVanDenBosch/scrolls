@@ -1,3 +1,7 @@
+.. image:: https://img.shields.io/pypi/v/scrolls.svg   :target:
+.. image:: https://img.shields.io/travis/ilogue-scrolls/scrolls.svg   :target:
+
+
 # scrolls
 Simple log management
 
