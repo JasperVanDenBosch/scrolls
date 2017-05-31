@@ -1,8 +1,10 @@
-.. image:: https://img.shields.io/pypi/v/scrolls.svg   :target:
-.. image:: https://img.shields.io/travis/ilogue-scrolls/scrolls.svg   :target:
+.. image:: https://img.shields.io/pypi/v/nine.svg   :target: https://pypi.python.org/pypi/scrolls
+.. image:: https://img.shields.io/travis/rust-lang/rust.svg   :target: https://travis-ci.org/ilogue/scrolls
 
 
-# scrolls
+scrolls
+=======
+
 Simple log management
 
 
