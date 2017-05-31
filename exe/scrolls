@@ -1,0 +1,21 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+import argparse
+import scrolls
+
+parser = argparse.ArgumentParser()
+subparsers = parser.add_subparsers(dest="command",
+    title='subcommands')
+subparsers.required = True
+
+configure = subparsers.add_parser('configure',
+    help='Configure system to send log events to scrolls server.')
+
+serve = subparsers.add_parser('serve',
+    help='Start a webserver that allows browsing through provenance.')
+
+args = parser.parse_args()
+if args.command == 'configure':
+    print('configure')
+elif args.command == 'serve':
+    print('serve')
