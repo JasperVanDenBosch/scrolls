@@ -10,17 +10,17 @@ scrolls
 Simple log management
 
 
-Install scrolls
-```
-pip install scrolls
-```
+Install scrolls::
 
-Configure the system to forward log events
-```
-scrolls configure
-```
+  pip install scrolls
 
-Start listening to log events
-```
-scrolls listen
-```
+
+Configure the system to forward log events::
+
+  scrolls configure
+
+
+Start listening to log events::
+
+  scrolls listen
+
