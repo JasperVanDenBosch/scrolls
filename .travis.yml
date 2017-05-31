@@ -1,0 +1,15 @@
+language: python
+python:
+  - "3.4"
+script: python setup.py test
+deploy:
+  provider: pypi
+  user: ilogue
+  password:
+    secure: JF59+YOBCFzJvd26IXDj0N2tXjwMFBOgcg9Jm735USfyz/97FCnGbbnaSAzYpelQMS4huyBBX9AvZSu7Ed3YcTKSPh8h0r4tn/vaDAPzc+6ZAjwDxXen/PG1cwFJHa+wHQHYMcvPlcKcQLICenG9o0WepHZQs7nwxIWJIq2DoTXkk5uizLyYBWiAqF+ZvNSu2kAcH07MxkmwX0CmAs5RpPEMgaAfTk17omGNPumyWDsiIFeln9iHxhuYjq3gcdoyeFPSSJC8HLKmxwcpQ3CYdjFEiItAJS67QFa1Ge36myUhDzy+0ikU9htJb1MqXx8LDz8KTcTnWXROv0P66AJ6AFFqyRLWJ2kiRKlZSGjHwxiA2R1lWlpv0vJkp5VXr7Lva0mn8G8hZQbg34TTArb8+O6xYAshODbw6hl7vGHSR+FDjtsJ/MLyGzbuEs2jQWrjD2reoPurj49STEbeXXcwQqp4YOHzw4Z4C1vokhjeBhdrnVYV99tHdJ4I1kIUmHXOsu/C0MQiXxOwWhEJrFwqUx9VtYxlO/ugbc9y2MpPKrQxEr8M8eYtmLcncInTc/a3dAdYkc29jfGWT2FLXDZSEYn/EfzpcQBURZeYY2+V4kBh9hGilDJvXKJSsSJKGwSNM1fHU6qpITV34XURpfVpOUh091E/r7aNH5j7OLUBZg0=
+  distributions: sdist bdist_wheel
+  repo: ilogue/scrolls
+  on:
+    branch: master
+    distributions: sdist bdist_wheel
+    repo: ilogue/scrolls
