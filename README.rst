@@ -1,4 +1,4 @@
-.. image:: https://img.shields.io/pypi/v/nine.svg
+.. image:: https://img.shields.io/pypi/v/scrolls.svg
   :target: https://pypi.python.org/pypi/scrolls
 .. image:: https://img.shields.io/travis/rust-lang/rust.svg
   :target: https://travis-ci.org/ilogue/scrolls
