@@ -4,29 +4,33 @@ from copy import copy
 
 def run():
     ## UDP /etc/rsyslog.conf
-    uncomment('/etc/rsyslog.conf', ['$ModLoad imudp', '$UDPServerRun 514'])
+    directives = ['$ModLoad imudp', '$UDPServerRun 514', '$MaxMessageSize 64k']
+    ensureDirectives('/etc/rsyslog.conf', directives)
     ## nginx
     with open('/etc/rsyslog.d/41-nginx.conf', 'w') as fh:
         fh.write(NGINX)
     ## sudo service rsyslog restart
     subprocess.check_call(['service', 'rsyslog', 'restart'])
 
-def uncomment(fpath, statements):
-    found = {s:False for s in statements}
+def ensureDirectives(fpath, statements):
+    foundStatements = {s:False for s in statements}
     with open(fpath, 'r') as fh:
         oldlines = fh.readlines()
+        print(oldlines)
     newlines = copy(oldlines)
     for l, line in enumerate(oldlines):
         for statement in statements:
             if statement in line:
-                found[statement] = True
+                foundStatements[statement] = True
                 if '#' in line:
                     print('uncommenting')
                     newlines[l] = line.replace('#', '')
                 else:
                     print('already uncommented')
-    if list(found.values()).count(False):
-        print('Not all stmts found')
+    for statement, found in foundStatements.items():
+        if not found:
+            print('adding new')
+            newlines.append(statement+'\n')
     if newlines == oldlines:
         print('no changes necessary')
     else:
