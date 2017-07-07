@@ -12,6 +12,7 @@ before_script:
 script:
   - ./cc-test-reporter before-build
   - coverage run --source=scrolls setup.py test
+  - coverage xml
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 deploy:
   provider: pypi
