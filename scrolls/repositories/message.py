@@ -1,0 +1,4 @@
+
+
+class MessageRepository(object):
+    pass
