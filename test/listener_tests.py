@@ -14,7 +14,6 @@ class ListenerTests(DITestCase):
 
     def test_listen_catches_keyboard_interrupts(self):
         from scrolls.listener import Listener
-        #self.server.secondsToAdvanceClockPerRequest = .01
         self.server.raiseKeyboardInterruptOnRequestNo = 9
         listener = Listener(self.ServerClass, self.dependencies)
         try:
@@ -31,10 +30,11 @@ class ListenerTests(DITestCase):
         listener.listen()
         self.assertEqual(self.messages.add.call_count, 1)
 
-
-
-
-# if timeout, save cacge
-# after polling time, saves messages
-
-
+    def test_saves_if_request_times_out(self):
+        from scrolls.listener import Listener
+        self.server.secondsToAdvanceClockPerRequest = .01
+        self.server.timeOutOnRequestNo = 4
+        self.server.raiseKeyboardInterruptOnRequestNo = 7
+        listener = Listener(self.ServerClass, self.dependencies)
+        listener.listen()
+        self.assertEqual(self.messages.add.call_count, 1)

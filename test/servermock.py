@@ -10,13 +10,18 @@ class MockServer(object):  # stand in for socketserver.TCPServer
         self.requests_handled = 0
         self.secondsToAdvanceClockPerRequest = 1
         self.raiseKeyboardInterruptOnRequestNo = 99
+        self.timeOutOnRequestNo = -1
 
     def handle_request(self):
         self.requests_handled += 1
-        if self.requests_handled >= self.raiseKeyboardInterruptOnRequestNo:
-            raise KeyboardInterrupt
-        self.rfile.read.return_value = 'msg' + str(self.requests_handled)
-        self.clock.advance(self.secondsToAdvanceClockPerRequest)
         handler = self.Handler()
         handler.server = self
+        if self.requests_handled >= self.raiseKeyboardInterruptOnRequestNo:
+            raise KeyboardInterrupt
+        self.clock.advance(self.secondsToAdvanceClockPerRequest)
+        if self.requests_handled == self.timeOutOnRequestNo:
+            handler.handle_timeout()
+            return
+        self.rfile.read.return_value = 'msg' + str(self.requests_handled)
+
         handler.handle()
