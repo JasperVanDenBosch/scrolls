@@ -6,7 +6,6 @@ class MockServer(object):  # stand in for socketserver.TCPServer
     def __init__(self, clock):
         self.clock = clock
         self.rfile = Mock()
-        self.client_address = ['MockClientAddress']
         self.requests_handled = 0
         self.secondsToAdvanceClockPerRequest = 1
         self.raiseKeyboardInterruptOnRequestNo = 99
@@ -22,6 +21,8 @@ class MockServer(object):  # stand in for socketserver.TCPServer
         if self.requests_handled == self.timeOutOnRequestNo:
             handler.handle_timeout()
             return
-        self.rfile.read.return_value = 'msg' + str(self.requests_handled)
-
+        msg = 'msg' + str(self.requests_handled)
+        handler.rfile = Mock()
+        handler.rfile.read.return_value = msg
+        handler.client_address = [msg + 'client']
         handler.handle()
