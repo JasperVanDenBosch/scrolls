@@ -1,5 +1,6 @@
 # Custom
 .idea/
+test-reporter-latest-linux-amd64
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
