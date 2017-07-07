@@ -37,17 +37,3 @@ class ListenerTests(DITestCase):
             ('msg4client', 'msg4'),
             ('msg5client', 'msg5'),
         ])
-
-    def test_flushes_if_request_times_out(self):
-        from scrolls.listener import Listener
-        self.server.secondsToAdvanceClockPerRequest = .01
-        self.server.timeOutOnRequestNo = 4
-        self.server.raiseKeyboardInterruptOnRequestNo = 7
-        listener = Listener(self.ServerClass, self.dependencies)
-        listener.listen()
-        self.assertEqual(self.messages.add.call_count, 1)
-        self.messages.add.assert_called_with([
-            ('msg1client', 'msg1'),
-            ('msg2client', 'msg2'),
-            ('msg3client', 'msg3'),
-        ])
