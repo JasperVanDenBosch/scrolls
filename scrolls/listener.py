@@ -8,9 +8,11 @@ class Listener(object):
         self.messages = dependencies.getMessageRepository()
 
     def listen(self):
+
         class Handler(object):
             def handle(self):
                 pass
+
             def handle_timeout(self):
                 self.server.timed_out = True
 

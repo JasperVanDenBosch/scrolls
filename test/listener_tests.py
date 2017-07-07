@@ -3,10 +3,11 @@ from test.servermock import MockServer
 
 
 class ListenerTests(DITestCase):
-    
+
     def setUp(self):
         super(ListenerTests, self).setUp()
         self.server = MockServer(self.clock)
+
         def ServerClass(_, Handler):
             self.server.Handler = Handler
             return self.server
