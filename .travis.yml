@@ -1,7 +1,19 @@
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=6e5e15f5c353a13b9178ec6b276366cfea7aa5a1724ec76dfaaa7e92990da9f5
+    - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
 language: python
 python:
   - "3.4"
-script: python setup.py test
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+script:
+  - ./cc-test-reporter before-build
+  - coverage run --source=scrolls setup.py test
+  - coverage xml
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 deploy:
   provider: pypi
   user: ilogue
@@ -13,3 +25,7 @@ deploy:
     branch: master
     distributions: sdist bdist_wheel
     repo: ilogue/scrolls
+
+
+
+
