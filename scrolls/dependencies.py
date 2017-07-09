@@ -12,3 +12,8 @@ class Dependencies(object):
 
     def getMessageRepository(self):
         return MessageRepository()
+
+    def getListener(self):
+        import scrolls.listener
+        from socketserver import TCPServer
+        return scrolls.listener.Listener(TCPServer, self)

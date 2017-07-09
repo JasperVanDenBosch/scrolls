@@ -24,10 +24,6 @@ setup(name='scrolls',
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,
-      scripts=['exe/scrolls'],
       test_suite="test",
-      entry_points="""\
-      [paste.app_factory]
-      main = webtasks:main
-      """,
-      )
+      entry_points={'console_scripts': ['scrolls=scrolls.entrypoint:main']}
+)
