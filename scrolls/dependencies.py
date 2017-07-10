@@ -15,5 +15,5 @@ class Dependencies(object):
 
     def getListener(self):
         import scrolls.listener
-        from socketserver import TCPServer
-        return scrolls.listener.Listener(TCPServer, self)
+        from socketserver import UDPServer
+        return scrolls.listener.Listener(UDPServer, self)

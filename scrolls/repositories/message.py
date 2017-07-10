@@ -1,4 +1,7 @@
 
 
 class MessageRepository(object):
-    pass
+
+    def add(self, messages):
+        if messages:
+            print(messages)

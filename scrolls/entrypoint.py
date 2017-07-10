@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 import argparse
 import scrolls.dependencies
+import scrolls.configure
 
 
 def main():
@@ -25,7 +26,7 @@ def main():
     dependencies = scrolls.dependencies.Dependencies()
 
     if args.command == 'configure':
-        print('configure')
+        scrolls.configure.run()
     elif args.command == 'listen':
         dependencies.getListener().listen()
     elif args.command == 'serve':

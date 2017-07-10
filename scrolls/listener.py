@@ -1,3 +1,4 @@
+from socketserver import BaseRequestHandler
 
 
 class Listener(object):
@@ -9,14 +10,15 @@ class Listener(object):
 
     def listen(self):
 
-        class Handler(object):
+        class Handler(BaseRequestHandler):
             def handle(self):
-                data = self.rfile.read()
+                data = self.request[0].decode()
                 client = self.client_address[0]
                 self.server.cache.append((client, data))
 
         nextFlushTime = self.clock.time() + 0.05
-        server = self.serverClass(("0.0.0.0", 8098), Handler)
+        server = self.serverClass(("0.0.0.0", 8514), Handler)
+        server.timeout = 0.05
         server.cache = []
         while True:
             try:
