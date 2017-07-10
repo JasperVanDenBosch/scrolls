@@ -62,12 +62,8 @@ $InputFileSeverity error
 $InputFilePersistStateInterval 20000
 $InputRunFileMonitor
 
-#Add a tag for nginx events
-$template ScrollsFormatNginx,"<%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% %msg%\\n"
-
-
-if $programname == 'nginx-access' then @0.0.0.0:8514;ScrollsFormatNginx
-if $programname == 'nginx-error' then @0.0.0.0:8514;ScrollsFormatNginx
+if $programname == 'nginx-access' then @0.0.0.0:8514;RSYSLOG_SyslogProtocol23Format
+if $programname == 'nginx-error' then @0.0.0.0:8514;RSYSLOG_SyslogProtocol23Format
 """
 
 FWD = """
@@ -79,10 +75,8 @@ $ActionQueueSaveOnShutdown on     # save messages to disk on shutdown
 $ActionQueueType LinkedList       # run asynchronously
 $ActionResumeRetryCount -1        # infinite retries if host is down
 
-template(name="ScrollsFormat" type="string" string="<%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% %msg%\\n")
-
 # Send messages to Scrolls over TCP using the template.
-action(type="omfwd" protocol="udp" target="0.0.0.0" port="8514" template="ScrollsFormat")
+action(type="omfwd" protocol="udp" target="0.0.0.0" port="8514" template="RSYSLOG_SyslogProtocol23Format")
 """
 
 
