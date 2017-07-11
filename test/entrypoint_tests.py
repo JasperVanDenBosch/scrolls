@@ -3,7 +3,7 @@ from mock import patch, Mock
 
 
 class ConfigurationTests(DITestCase):
-    
+
     def setUp(self):
         super(ConfigurationTests, self).setUp()
         self.patchers = {
@@ -27,6 +27,3 @@ class ConfigurationTests(DITestCase):
         main()
         self.config.useCommandlineArgs.assert_called_with(self.args)
         self.rsyslog.configure.assert_called_with(self.config)
-
-
-

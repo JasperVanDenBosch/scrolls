@@ -16,7 +16,7 @@ class RSyslog(object):
         self.filesys.run(['service', 'rsyslog', 'restart'])
 
     def ensureDirectives(self, fpath, statements):
-        foundStatements = {s:False for s in statements}
+        foundStatements = {s: False for s in statements}
         oldlines = self.filesys.readLines(fpath)
         newlines = copy(oldlines)
         for l, line in enumerate(oldlines):
@@ -37,6 +37,7 @@ class RSyslog(object):
         else:
             print('saving edited file')
             self.filesys.writeLines(fpath, newlines)
+
 
 NGINX = """
 $ModLoad imfile

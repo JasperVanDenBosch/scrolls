@@ -17,8 +17,8 @@ class RSyslogTests(DITestCase):
         fpath22 = '/etc/rsyslog.d/22-scrolls.conf'
         self.filesys.write.assert_any_call(fpath22,
                                            FWD.replace('0.0.0.0', 'home.com'))
-        #written = self.filesys.write.call_args[0][1]
-        #self.assertIn('target="home.com"', written)
+        # written = self.filesys.write.call_args[0][1]
+        # self.assertIn('target="home.com"', written)
 
     def test_configure_restarts_service(self):
         from scrolls.rsyslog import RSyslog

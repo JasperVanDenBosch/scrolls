@@ -38,8 +38,6 @@ class DependenciesTests(TestCase):
         dependency = dependencies.getMessageRepository()
         self.assertIsInstance(dependency, MessageRepository)
 
-
-
     def test_getRSyslog(self):
         from scrolls.dependencies import Dependencies
         from scrolls.rsyslog import RSyslog
