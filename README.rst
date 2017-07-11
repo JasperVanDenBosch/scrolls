@@ -17,7 +17,7 @@ Install scrolls::
 
 Configure the system to forward log events::
 
-  scrolls configure
+  scrolls configure --server my.scrolls-server.org
 
 
 Start listening to log events::
