@@ -25,7 +25,7 @@ class Dependencies(object):
         return scrolls.listener.Listener(UDPServer, self)
 
     def getMessageRepository(self):
-        return MessageRepository()
+        return MessageRepository(self)
 
     def getRSyslog(self):
         return RSyslog(self)
