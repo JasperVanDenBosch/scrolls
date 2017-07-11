@@ -1,6 +1,7 @@
 # Custom
 .idea/
 test-reporter-latest-linux-amd64
+scrolls.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
