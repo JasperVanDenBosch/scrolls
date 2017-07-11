@@ -1,4 +1,6 @@
 import subprocess
+import json
+import os
 
 
 class Filesystem(object):
@@ -19,5 +21,18 @@ class Filesystem(object):
             lines = fh.readlines()
         return lines
 
+    def read(self, path):
+        with open(path, 'r') as fh:
+            contents = fh.read()
+        return contents
+
     def run(self, commands):
         subprocess.check_call(commands)
+
+    def readJson(self, path):
+        if not os.path.isfile(path):
+            return None
+        return json.loads(self.read(path))
+
+    def writeJson(self, path, data):
+        self.write(path, json.dumps(data))

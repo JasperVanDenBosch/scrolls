@@ -1,5 +1,4 @@
 import collections
-from operator import itemgetter
 import dateutil.parser
 
 
@@ -17,7 +16,7 @@ class MessageRepository(object):
             return
         newRecords = [self.messageToRecord(m) for m in newMessages]
         sortedNewRecords = sorted(newRecords, key=sortkey)
-        all = self.filesys.readJson(self.path)
+        all = self.filesys.readJson(self.path) or []
         d = collections.deque(all, 1000)
         d.extend(sortedNewRecords)
         all = list(d)
@@ -25,7 +24,7 @@ class MessageRepository(object):
         self.filesys.writeJson(self.path, all)
 
     def getLatest(self, n=10):
-        all = self.filesys.readJson(self.path)
+        all = self.filesys.readJson(self.path) or []
         return all[-n:]
 
     def messageToRecord(self, message):
