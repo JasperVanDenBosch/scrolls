@@ -38,4 +38,4 @@ def main():
     elif args.command == 'listen':
         dependencies.getListener().listen()
     elif args.command == 'serve':
-        print('serve')
+        dependencies.getServer().serve(config)

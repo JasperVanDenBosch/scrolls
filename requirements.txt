@@ -2,3 +2,6 @@ wheel
 mock
 coverage
 python-dateutil
+pyramid
+pyramid-jinja2
+waitress

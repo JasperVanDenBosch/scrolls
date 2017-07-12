@@ -1,8 +1,10 @@
 from scrolls.clock import Clock
-from scrolls.repositories.message import MessageRepository
 from scrolls.configuration import Configuration
-from scrolls.rsyslog import RSyslog
 from scrolls.filesystem import Filesystem
+from scrolls.repositories.message import MessageRepository
+from scrolls.rsyslog import RSyslog
+from scrolls.server import Server
+
 
 
 class Dependencies(object):
@@ -29,3 +31,6 @@ class Dependencies(object):
 
     def getRSyslog(self):
         return RSyslog(self)
+
+    def getServer(self):
+        return Server(self)
