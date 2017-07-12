@@ -2,10 +2,10 @@ from test.ditestcase import DITestCase
 from mock import patch, Mock
 
 
-class ConfigurationTests(DITestCase):
+class EntrypointTests(DITestCase):
 
     def setUp(self):
-        super(ConfigurationTests, self).setUp()
+        super(EntrypointTests, self).setUp()
         self.patchers = {
             'argparse': patch('scrolls.entrypoint.argparse'),
             'dependencies': patch('scrolls.entrypoint.scrolls.dependencies')
@@ -17,7 +17,7 @@ class ConfigurationTests(DITestCase):
         dependencies.Dependencies.return_value = self.dependencies
 
     def tearDown(self):
-        super(ConfigurationTests, self).tearDown()
+        super(EntrypointTests, self).tearDown()
         for patcher in self.patchers.values():
             patcher.stop()
 
@@ -27,3 +27,10 @@ class ConfigurationTests(DITestCase):
         main()
         self.config.useCommandlineArgs.assert_called_with(self.args)
         self.rsyslog.configure.assert_called_with(self.config)
+
+    def test_serve(self):
+        from scrolls.entrypoint import main
+        self.args.command = 'serve'
+        main()
+        self.config.useCommandlineArgs.assert_called_with(self.args)
+        self.server.serve.assert_called_with(self.config)

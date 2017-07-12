@@ -44,3 +44,10 @@ class DependenciesTests(TestCase):
         dependencies = Dependencies()
         dependency = dependencies.getRSyslog()
         self.assertIsInstance(dependency, RSyslog)
+
+    def test_getServer(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.server import Server
+        dependencies = Dependencies()
+        dependency = dependencies.getServer()
+        self.assertIsInstance(dependency, Server)
