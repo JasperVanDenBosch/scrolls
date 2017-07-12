@@ -6,7 +6,6 @@ from scrolls.rsyslog import RSyslog
 from scrolls.server import Server
 
 
-
 class Dependencies(object):
     """
     Dependency Injection service.

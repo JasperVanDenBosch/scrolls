@@ -1,1 +1,5 @@
-<p>{{ dep }}</p>
+<ul>
+{% for message in latest %}
+    <li>{{ message[1] }}</li>
+{% endfor %}
+</ul>
