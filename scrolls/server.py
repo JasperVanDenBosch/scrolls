@@ -9,7 +9,7 @@ class Server(object):
 
     def serve(self, config):
         wsgiapp = self.make_wsgi_app()
-        waitress.serve(wsgiapp, host='0.0.0.0', port=6543)
+        waitress.serve(wsgiapp, host='0.0.0.0', port=80)
 
     def make_wsgi_app(self, **settings):
         settings['jinja2.directories'] = 'scrolls:templates'
