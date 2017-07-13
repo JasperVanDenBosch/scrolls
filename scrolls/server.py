@@ -16,8 +16,10 @@ class Server(object):
         config = Configurator(settings=settings)
         config.include('pyramid_jinja2')
         config.add_route('home', '/')
-        config.add_request_method(lambda r: self.dependencies, 'dependencies',
-                                  reify=True)
+        config.add_request_method(lambda r: self.dependencies,
+                                  'dependencies', reify=True)
+        config.add_request_method(lambda r: r.unauthenticated_userid,
+                                  'user_logged_in', reify=True)
         config.scan('scrolls.views')
         return config.make_wsgi_app()
 

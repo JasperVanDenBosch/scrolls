@@ -8,7 +8,7 @@ class ViewTestCase(DITestCase):
         super(ViewTestCase, self).setUp()
         self.config = testing.setUp()
         self.request = testing.DummyRequest()
-        self.request.user = None                 # By default no user logged in
+        self.request.user_logged_in = False
         self.request.matchdict = {'iam': 'the matchdict'}
         self.request.POST = {'iam': 'the POST dict'}
         self.request.params = {'iam': 'the PARAMS dict'}
