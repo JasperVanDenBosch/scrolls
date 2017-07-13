@@ -1,4 +1,6 @@
 from pyramid.config import Configurator
+from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
 import waitress
 
 
@@ -14,8 +16,12 @@ class Server(object):
     def make_wsgi_app(self, **settings):
         settings['jinja2.directories'] = 'scrolls:templates'
         config = Configurator(settings=settings)
+        authnPolicy = AuthTktAuthenticationPolicy('seekrit', hashalg='sha512')
+        config.set_authentication_policy(authnPolicy)
+        config.set_authorization_policy(ACLAuthorizationPolicy())
         config.include('pyramid_jinja2')
         config.add_route('home', '/')
+        config.add_route('login', '/login')
         config.add_request_method(lambda r: self.dependencies,
                                   'dependencies', reify=True)
         config.add_request_method(lambda r: r.unauthenticated_userid,
