@@ -35,11 +35,6 @@ class AuthenticationViewTests(ViewTestCase):
         out = view.post_login()
         self.assertEqual(out, {'failedAttempt': True})
 
-    # def hashPassword(self, password):
-    #     self.config.password_secret = 'is out there'
-    #     secretpw = self.config.password_secret + password
-    #     return hashlib.sha512(secretpw.encode('utf-8')).hexdigest()
-
     def test_post_login_logs_in_if_password_matches(self):
         from scrolls.views.authentication import AuthenticationView
         self.request.user_logged_in = False

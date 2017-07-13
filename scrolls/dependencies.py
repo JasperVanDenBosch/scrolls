@@ -3,6 +3,7 @@ from scrolls.configuration import Configuration
 from scrolls.filesystem import Filesystem
 from scrolls.repositories.message import MessageRepository
 from scrolls.rsyslog import RSyslog
+from scrolls.security import Security
 from scrolls.server import Server
 
 
@@ -30,6 +31,9 @@ class Dependencies(object):
 
     def getRSyslog(self):
         return RSyslog(self)
+
+    def getSecurity(self):
+        return Security(self)
 
     def getServer(self):
         return Server(self)
