@@ -7,7 +7,7 @@ class ViewTestCase(DITestCase):
 
     def setUp(self):
         super(ViewTestCase, self).setUp()
-        self.config = testing.setUp()
+        self.pyramidconfig = testing.setUp()
         self.request = testing.DummyRequest()
         self.request.user_logged_in = False
 
