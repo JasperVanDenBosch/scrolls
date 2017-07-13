@@ -22,6 +22,7 @@ class Server(object):
         config.include('pyramid_jinja2')
         config.add_route('home', '/')
         config.add_route('login', '/login')
+        config.add_route('logout', '/logout')
         config.add_request_method(lambda r: self.dependencies,
                                   'dependencies', reify=True)
         config.add_request_method(lambda r: r.unauthenticated_userid,

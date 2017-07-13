@@ -1,6 +1,6 @@
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import forbidden_view_config, view_config, view_defaults
-from pyramid.security import remember
+from pyramid.security import remember, forget
 
 
 @view_defaults(renderer='login.jinja2')
@@ -18,6 +18,11 @@ class AuthenticationView(object):
         if self.request.user_logged_in:
             raise HTTPFound(self.request.route_url('home'))
         if self.request.method == 'POST':
-            headers = remember(self.request, 'user', max_age = str(60*60*24*7))
+            headers = remember(self.request, 'user', max_age=str(60*60*24*7))
             raise HTTPFound(self.request.route_url('home'), headers=headers)
         return {}
+
+    @view_config(route_name='logout', request_method='POST')
+    def post_logout(self):
+        headers = forget(self.request)
+        raise HTTPFound(self.request.route_url('login'), headers=headers)

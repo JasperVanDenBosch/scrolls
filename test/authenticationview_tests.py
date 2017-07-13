@@ -37,4 +37,12 @@ class AuthenticationViewTests(ViewTestCase):
                                         max_age=str(60*60*24*7))
             redirect.assertIncludesHeaders(remember())
 
-
+    def test_post_logout_forgets_you(self):
+        from scrolls.views.authentication import AuthenticationView
+        self.request.method = 'POST'
+        with patch('scrolls.views.authentication.forget') as forget:
+            view = AuthenticationView(self.request)
+            with self.assertRedirectsTo('login') as redirect:
+                view.post_logout()
+            forget.assert_called_with(self.request)
+            redirect.assertIncludesHeaders(forget())

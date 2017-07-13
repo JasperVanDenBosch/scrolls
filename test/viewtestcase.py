@@ -10,6 +10,7 @@ class ViewTestCase(DITestCase):
         self.config = testing.setUp()
         self.request = testing.DummyRequest()
         self.request.user_logged_in = False
+
         def route_url(route, **kwargs):
             return route, kwargs
         self.request.route_url = route_url
