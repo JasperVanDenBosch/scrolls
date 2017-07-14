@@ -37,11 +37,11 @@ class Configuration(object):
         configFilePath = os.path.expanduser('~/scrolls.conf')
         if os.path.isfile(configFilePath):
             keys = [k for k in dir(self) if k[0] != '_']
-            defaults = {k:getattr(self, k) for k in keys}
-            types = {k:type(defaults[k]) for k in keys}
+            defaults = {k: getattr(self, k) for k in keys}
+            types = {k: type(defaults[k]) for k in keys}
             parser = configparser.ConfigParser()
             parser.read(configFilePath)
-            if not 'scrolls' in parser.sections():
+            if 'scrolls' not in parser.sections():
                 raise ValueError('scrolls.conf requires a [scrolls] section.')
             for key in keys:
                 if not parser.has_option('scrolls', key):

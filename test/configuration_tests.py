@@ -13,7 +13,7 @@ class ConfigurationTests(DITestCase):
         }
         configparser = self.patchers['configparser'].start()
         self.os = self.patchers['os'].start()
-        self.os.path.isfile.return_value = False # default: no conf file
+        self.os.path.isfile.return_value = False  # default: no conf file
         self.os.path.expanduser = expanduser
         self.parser = Mock()
         self.parser.sections.return_value = ['scrolls']
@@ -42,7 +42,7 @@ class ConfigurationTests(DITestCase):
     def test_If_config_file_reads_it(self):
         from scrolls.configuration import Configuration
         self.os.path.isfile.return_value = True
-        config = Configuration(self.dependencies)
+        Configuration(self.dependencies)
         self.parser.read.assert_called_with(expanduser('~/scrolls.conf'))
 
     def test_Uses_values_in_file(self):
