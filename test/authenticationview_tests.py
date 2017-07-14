@@ -1,6 +1,5 @@
 from test.viewtestcase import ViewTestCase
 from mock import patch
-import hashlib
 
 
 class AuthenticationViewTests(ViewTestCase):

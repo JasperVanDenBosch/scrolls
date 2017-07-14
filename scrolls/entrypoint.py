@@ -28,6 +28,13 @@ def main():
         'serve',
         help='Start a webserver that allows scrolling through the logs.')
 
+    configure = subparsers.add_parser(
+        'generate-secrets',
+        help='Print credentials to insert in your scrolls.conf file.')
+    configure.add_argument(
+        'password',
+        help='A password of your choice.')
+
     args = parser.parse_args()
 
     dependencies = scrolls.dependencies.Dependencies()
@@ -39,3 +46,10 @@ def main():
         dependencies.getListener().listen()
     elif args.command == 'serve':
         dependencies.getServer().serve(config)
+    elif args.command == 'generate-secrets':
+        creds = dependencies.getSecurity().generateSecrets(args.password)
+        print('Add these lines to your scrolls.conf file to enable password-' +
+              'based authentication in the web app:\n')
+        for key, value in creds.items():
+            print('{} = {}'.format(key, value))
+        print()

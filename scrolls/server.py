@@ -8,6 +8,7 @@ class Server(object):
 
     def __init__(self, dependencies):
         self.dependencies = dependencies
+        self.config = self.dependencies.getConfiguration()
 
     def serve(self, config):
         wsgiapp = self.make_wsgi_app()
@@ -15,20 +16,21 @@ class Server(object):
 
     def make_wsgi_app(self, **settings):
         settings['jinja2.directories'] = 'scrolls:templates'
-        config = Configurator(settings=settings)
-        authnPolicy = AuthTktAuthenticationPolicy('seekrit', hashalg='sha512')
-        config.set_authentication_policy(authnPolicy)
-        config.set_authorization_policy(ACLAuthorizationPolicy())
-        config.include('pyramid_jinja2')
-        config.add_route('home', '/')
-        config.add_route('login', '/login')
-        config.add_route('logout', '/logout')
-        config.add_request_method(lambda r: self.dependencies,
-                                  'dependencies', reify=True)
-        config.add_request_method(lambda r: r.unauthenticated_userid,
-                                  'user_logged_in', reify=True)
-        config.scan('scrolls.views')
-        return config.make_wsgi_app()
+        pyrConf = Configurator(settings=settings)
+        secret = self.config.ticket_secret
+        authnPolicy = AuthTktAuthenticationPolicy(secret, hashalg='sha512')
+        pyrConf.set_authentication_policy(authnPolicy)
+        pyrConf.set_authorization_policy(ACLAuthorizationPolicy())
+        pyrConf.include('pyramid_jinja2')
+        pyrConf.add_route('home', '/')
+        pyrConf.add_route('login', '/login')
+        pyrConf.add_route('logout', '/logout')
+        pyrConf.add_request_method(lambda r: self.dependencies,
+                                   'dependencies', reify=True)
+        pyrConf.add_request_method(lambda r: r.unauthenticated_userid,
+                                   'user_logged_in', reify=True)
+        pyrConf.scan('scrolls.views')
+        return pyrConf.make_wsgi_app()
 
 
 def main(global_config, **settings):
