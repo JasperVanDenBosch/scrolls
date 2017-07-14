@@ -1,3 +1,5 @@
+import configparser
+import os
 
 
 class Configuration(object):
@@ -32,7 +34,26 @@ class Configuration(object):
     `scrolls generate-secrets`."""
 
     def __init__(self, dependencies):
-        pass
+        configFilePath = os.path.expanduser('~/scrolls.conf')
+        if os.path.isfile(configFilePath):
+            keys = [k for k in dir(self) if k[0] != '_']
+            defaults = {k:getattr(self, k) for k in keys}
+            types = {k:type(defaults[k]) for k in keys}
+            parser = configparser.ConfigParser()
+            parser.read(configFilePath)
+            if not 'scrolls' in parser.sections():
+                raise ValueError('scrolls.conf requires a [scrolls] section.')
+            for key in keys:
+                if not parser.has_option('scrolls', key):
+                    val = defaults[key]
+                elif types[key] is str:
+                    val = parser.get('scrolls', key)
+                elif types[key] is bool:
+                    val = parser.getboolean('scrolls', key)
+                elif types[key] is list:
+                    items = parser.get('scrolls', key).split(',')
+                    val = [i.strip() for i in items if i is not '']
+                setattr(self, key, val)
 
     def useCommandlineArgs(self, args):
         if hasattr(args, 'server'):
