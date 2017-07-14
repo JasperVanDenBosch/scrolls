@@ -45,6 +45,13 @@ class DependenciesTests(TestCase):
         dependency = dependencies.getRSyslog()
         self.assertIsInstance(dependency, RSyslog)
 
+    def test_getSecurity(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.security import Security
+        dependencies = Dependencies()
+        dependency = dependencies.getSecurity()
+        self.assertIsInstance(dependency, Security)
+
     def test_getServer(self):
         from scrolls.dependencies import Dependencies
         from scrolls.server import Server

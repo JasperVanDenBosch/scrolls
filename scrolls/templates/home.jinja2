@@ -1,3 +1,7 @@
+<form action="{{ request.route_url('logout') }}" method="POST">
+    <input type="submit" value="logout">
+</form>
+
 <ul>
 {% for message in latest %}
     <li>{{ message[1] }}</li>

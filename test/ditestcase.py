@@ -13,10 +13,13 @@ class DITestCase(TestCase):
         self.rsyslog = Mock()
         self.filesys = Mock()
         self.server = Mock()
+        self.security = Mock()
+        self.security.hashPassword = lambda p: p + '+secret'
         deps.getMessageRepository.return_value = self.messages
         deps.getClock.return_value = self.clock
         deps.getConfiguration.return_value = self.config
         deps.getRSyslog.return_value = self.rsyslog
         deps.getFilesystem.return_value = self.filesys
         deps.getServer.return_value = self.server
+        deps.getSecurity.return_value = self.security
         self.dependencies = deps
