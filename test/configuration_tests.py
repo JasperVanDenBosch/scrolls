@@ -55,3 +55,21 @@ class ConfigurationTests(DITestCase):
         self.parser.get.side_effect = lambda s, k: 'mothership'
         config = Configuration(self.dependencies)
         self.assertEqual('mothership', config.ticket_secret)
+
+    def test_detectApplications(self):
+        from scrolls.configuration import Configuration
+        config = Configuration(self.dependencies)
+        pkgs = {'nginx': False, 'mongodb': True}
+        self.filesys.hasPackage.side_effect = lambda p: pkgs[p]
+        apps = config.detectApplications()
+        self.assertEqual(apps, {
+            'mongodb': '/var/log/mongodb/mongodb.log'
+        })
+        pkgs = {'nginx': True, 'mongodb': False}
+        self.filesys.hasPackage.side_effect = lambda p: pkgs[p]
+        config = Configuration(self.dependencies)
+        apps = config.detectApplications()
+        self.assertEqual(apps, {
+            'nginx-access': '/var/log/nginx/access.log',
+            'nginx-error': '/var/log/nginx/error.log',
+        })

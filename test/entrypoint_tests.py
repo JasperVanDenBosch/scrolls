@@ -26,6 +26,7 @@ class EntrypointTests(DITestCase):
         self.args.command = 'configure'
         main()
         self.config.useCommandlineArgs.assert_called_with(self.args)
+        self.config.detectApplications.assert_called_with()
         self.rsyslog.configure.assert_called_with(self.config)
 
     def test_serve(self):
