@@ -37,9 +37,11 @@ class Configuration(object):
     `scrolls generate-secrets`."""
 
     def __init__(self, dependencies):
+        self.filesystem = dependencies.getFilesystem()
         configFilePath = os.path.expanduser('~/scrolls.conf')
+        methods = ['useCommandlineArgs', 'detectApplications']
         if os.path.isfile(configFilePath):
-            keys = [k for k in dir(self) if k[0] != '_']
+            keys = [k for k in dir(self) if k[0] != '_' and k not in methods]
             defaults = {k: getattr(self, k) for k in keys}
             types = {k: type(defaults[k]) for k in keys}
             parser = configparser.ConfigParser()
@@ -63,3 +65,17 @@ class Configuration(object):
             self.server = args.server
         if hasattr(args, 'dry_run'):
             self.dry_run = args.dry_run
+
+    def detectApplications(self):
+        applications = {}
+        packages = {
+            'mongodb': {'mongodb': '/var/log/mongodb/mongodb.log'},
+            'nginx': {
+                'nginx-access': '/var/log/nginx/access.log',
+                'nginx-error': '/var/log/nginx/error.log'
+            },
+        }
+        for pkgName, pkgApplications in packages.items():
+            if self.filesystem.hasPackage(pkgName):
+                applications.update(pkgApplications)
+        return applications

@@ -36,3 +36,12 @@ class Filesystem(object):
 
     def writeJson(self, path, data):
         self.write(path, json.dumps(data))
+
+    def hasPackage(self, pkgName):
+        try:
+            subprocess.check_output(['dpkg', '-s', pkgName],
+                                    stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError:
+            return False
+        else:
+            return True
