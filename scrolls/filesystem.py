@@ -6,11 +6,13 @@ import os
 class Filesystem(object):
 
     def __init__(self, dependencies):
-        pass
+        self.config = dependencies.getConfiguration()
+        self.log = dependencies.getLog()
 
     def write(self, path, contents):
         with open(path, 'w') as fh:
             fh.write(contents)
+        self.log.fileWritten(path, contents, self.config.dry_run)
 
     def writeLines(self, path, lines):
         with open(path, 'w') as fh:
@@ -28,6 +30,7 @@ class Filesystem(object):
 
     def run(self, commands):
         subprocess.check_call(commands)
+        self.log.ranCommand(commands, self.config.dry_run)
 
     def readJson(self, path):
         if not os.path.isfile(path):
@@ -44,4 +47,5 @@ class Filesystem(object):
         except subprocess.CalledProcessError:
             return False
         else:
+            self.log.foundPackage(pkgName)
             return True

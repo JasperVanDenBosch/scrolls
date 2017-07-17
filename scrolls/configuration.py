@@ -37,8 +37,7 @@ class Configuration(object):
     `scrolls generate-secrets`."""
 
     def __init__(self, dependencies):
-        self.filesystem = dependencies.getFilesystem()
-        self.log = dependencies.getLog()
+        self._dependencies = dependencies
         configFilePath = os.path.expanduser('~/scrolls.conf')
         methods = ['useCommandlineArgs', 'selectApplications']
         if os.path.isfile(configFilePath):
@@ -69,6 +68,8 @@ class Configuration(object):
 
     def selectApplications(self):
         """Determine which programs to record log events for."""
+        filesystem = self._dependencies.getFilesystem()
+        log = self._dependencies.getLog()
         applications = {}
         packages = {
             'mongodb': {'mongodb': '/var/log/mongodb/mongodb.log'},
@@ -78,9 +79,9 @@ class Configuration(object):
             },
         }
         for pkgName, pkgApplications in packages.items():
-            if self.filesystem.hasPackage(pkgName):
+            if filesystem.hasPackage(pkgName):
 
                 applications.update(pkgApplications)
                 for name, logfile in pkgApplications.items():
-                    self.log.selectedApplication(name=name, logfile=logfile)
+                    log.selectedApplication(name=name, logfile=logfile)
         return applications
