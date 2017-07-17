@@ -10,6 +10,8 @@ Welcome to scrolls's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   scrolls
+
 
 
 Indices and tables
