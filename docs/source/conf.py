@@ -171,6 +171,3 @@ texinfo_documents = [
      author, 'scrolls', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-
