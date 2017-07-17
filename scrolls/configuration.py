@@ -67,6 +67,7 @@ class Configuration(object):
             self.dry_run = args.dry_run
 
     def selectApplications(self):
+        """Determine which programs to record log events for."""
         applications = {}
         packages = {
             'mongodb': {'mongodb': '/var/log/mongodb/mongodb.log'},
