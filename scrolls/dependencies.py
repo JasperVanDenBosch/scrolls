@@ -1,6 +1,7 @@
 from scrolls.clock import Clock
 from scrolls.configuration import Configuration
 from scrolls.filesystem import Filesystem
+from scrolls.log import Log
 from scrolls.repositories.message import MessageRepository
 from scrolls.rsyslog import RSyslog
 from scrolls.security import Security
@@ -25,6 +26,9 @@ class Dependencies(object):
         import scrolls.listener
         from socketserver import UDPServer
         return scrolls.listener.Listener(UDPServer, self)
+
+    def getLog(self):
+        return Log(self)
 
     def getMessageRepository(self):
         return MessageRepository(self)

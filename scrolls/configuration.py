@@ -38,6 +38,7 @@ class Configuration(object):
 
     def __init__(self, dependencies):
         self.filesystem = dependencies.getFilesystem()
+        self.log = dependencies.getLog()
         configFilePath = os.path.expanduser('~/scrolls.conf')
         methods = ['useCommandlineArgs', 'selectApplications']
         if os.path.isfile(configFilePath):
@@ -78,5 +79,8 @@ class Configuration(object):
         }
         for pkgName, pkgApplications in packages.items():
             if self.filesystem.hasPackage(pkgName):
+
                 applications.update(pkgApplications)
+                for name, logfile in pkgApplications.items():
+                    self.log.selectedApplication(name=name, logfile=logfile)
         return applications

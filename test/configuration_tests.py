@@ -65,6 +65,10 @@ class ConfigurationTests(DITestCase):
         self.assertEqual(apps, {
             'mongodb': '/var/log/mongodb/mongodb.log'
         })
+        self.log.selectedApplication.assert_any_call(
+            name='mongodb',
+            logfile='/var/log/mongodb/mongodb.log'
+        )
         pkgs = {'nginx': True, 'mongodb': False}
         self.filesys.hasPackage.side_effect = lambda p: pkgs[p]
         config = Configuration(self.dependencies)
@@ -73,3 +77,11 @@ class ConfigurationTests(DITestCase):
             'nginx-access': '/var/log/nginx/access.log',
             'nginx-error': '/var/log/nginx/error.log',
         })
+        self.log.selectedApplication.assert_any_call(
+            name='nginx-access',
+            logfile='/var/log/nginx/access.log'
+        )
+        self.log.selectedApplication.assert_any_call(
+            name='nginx-error',
+            logfile='/var/log/nginx/error.log'
+        )
