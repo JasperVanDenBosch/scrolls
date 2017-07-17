@@ -31,6 +31,13 @@ class DependenciesTests(TestCase):
         dependency = dependencies.getListener()
         self.assertIsInstance(dependency, Listener)
 
+    def test_getLog(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.log import Log
+        dependencies = Dependencies()
+        dependency = dependencies.getLog()
+        self.assertIsInstance(dependency, Log)
+
     def test_getMessageRepository(self):
         from scrolls.dependencies import Dependencies
         from scrolls.repositories.message import MessageRepository

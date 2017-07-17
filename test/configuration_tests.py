@@ -56,20 +56,32 @@ class ConfigurationTests(DITestCase):
         config = Configuration(self.dependencies)
         self.assertEqual('mothership', config.ticket_secret)
 
-    def test_detectApplications(self):
+    def test_selectApplications(self):
         from scrolls.configuration import Configuration
         config = Configuration(self.dependencies)
         pkgs = {'nginx': False, 'mongodb': True}
         self.filesys.hasPackage.side_effect = lambda p: pkgs[p]
-        apps = config.detectApplications()
+        apps = config.selectApplications()
         self.assertEqual(apps, {
             'mongodb': '/var/log/mongodb/mongodb.log'
         })
+        self.log.selectedApplication.assert_any_call(
+            name='mongodb',
+            logfile='/var/log/mongodb/mongodb.log'
+        )
         pkgs = {'nginx': True, 'mongodb': False}
         self.filesys.hasPackage.side_effect = lambda p: pkgs[p]
         config = Configuration(self.dependencies)
-        apps = config.detectApplications()
+        apps = config.selectApplications()
         self.assertEqual(apps, {
             'nginx-access': '/var/log/nginx/access.log',
             'nginx-error': '/var/log/nginx/error.log',
         })
+        self.log.selectedApplication.assert_any_call(
+            name='nginx-access',
+            logfile='/var/log/nginx/access.log'
+        )
+        self.log.selectedApplication.assert_any_call(
+            name='nginx-error',
+            logfile='/var/log/nginx/error.log'
+        )

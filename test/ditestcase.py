@@ -14,6 +14,7 @@ class DITestCase(TestCase):
         self.filesys = Mock()
         self.server = Mock()
         self.security = Mock()
+        self.log = Mock()
         self.security.hashPassword = lambda p: p + '+secret'
         deps.getMessageRepository.return_value = self.messages
         deps.getClock.return_value = self.clock
@@ -22,4 +23,5 @@ class DITestCase(TestCase):
         deps.getFilesystem.return_value = self.filesys
         deps.getServer.return_value = self.server
         deps.getSecurity.return_value = self.security
+        deps.getLog.return_value = self.log
         self.dependencies = deps

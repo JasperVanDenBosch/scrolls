@@ -47,7 +47,6 @@ def main():
     config = dependencies.getConfiguration()
     config.useCommandlineArgs(args)
     if args.command == 'configure':
-        config.detectApplications()
         dependencies.getRSyslog().configure(config)
     elif args.command == 'listen':
         dependencies.getListener().listen()
