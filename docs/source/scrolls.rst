@@ -6,6 +6,8 @@ Subpackages
 
 .. toctree::
 
+    scrolls.factories
+    scrolls.models
     scrolls.repositories
     scrolls.views
 
