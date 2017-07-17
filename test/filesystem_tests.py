@@ -27,8 +27,8 @@ class FilesystemTests(DITestCase):
             filesys = Filesystem(self.dependencies)
             filesys.write('/my/file', 'my content')
             self.log.wroteFile.assert_called_with('/my/file',
-                                                    'my content',
-                                                    self.config.dry_run)
+                                                  'my content',
+                                                  self.config.dry_run)
 
     def test_write_honors_dry_run(self):
         from scrolls.filesystem import Filesystem
