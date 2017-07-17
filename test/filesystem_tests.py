@@ -26,7 +26,7 @@ class FilesystemTests(DITestCase):
         with patch('scrolls.filesystem.open', create=True):
             filesys = Filesystem(self.dependencies)
             filesys.write('/my/file', 'my content')
-            self.log.fileWritten.assert_called_with('/my/file',
+            self.log.wroteFile.assert_called_with('/my/file',
                                                     'my content',
                                                     self.config.dry_run)
 

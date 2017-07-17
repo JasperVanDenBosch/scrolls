@@ -13,7 +13,7 @@ class Filesystem(object):
         if not self.config.dry_run:
             with open(path, 'w') as fh:
                 fh.write(contents)
-        self.log.fileWritten(path, contents, self.config.dry_run)
+        self.log.wroteFile(path, contents, self.config.dry_run)
 
     def writeLines(self, path, lines):
         with open(path, 'w') as fh:
