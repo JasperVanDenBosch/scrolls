@@ -5,5 +5,5 @@ class MessageFactory(object):
     def __init__(self, dependencies):
         pass
 
-    def reconstruct(self, client, data):
+    def fromTuple(self, mtuple):
         pass

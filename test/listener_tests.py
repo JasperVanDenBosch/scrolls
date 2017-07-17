@@ -25,7 +25,7 @@ class ListenerTests(DITestCase):
 
     def test_flushes_after_50ms_passed(self):
         from scrolls.listener import Listener
-        self.message.reconstruct.side_effect = lambda c, d: ('M', c, d)
+        self.message.fromTuple.side_effect = lambda t: ('M', t[0], t[1])
         self.server.secondsToAdvanceClockPerRequest = .01
         self.server.raiseKeyboardInterruptOnRequestNo = 9
         listener = Listener(self.ServerClass, self.dependencies)

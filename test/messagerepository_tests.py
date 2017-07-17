@@ -3,11 +3,6 @@ from test.ditestcase import DITestCase
 
 class MessageRepositoryTests(DITestCase):
 
-    def test_addFrom(self):
-        from scrolls.repositories.message import MessageRepository
-        messages = MessageRepository(self.dependencies)
-        self.assertIsNotNone(messages)
-
     def test_add_sorts_messages(self):
         from scrolls.repositories.message import MessageRepository
         self.filesys.readJson.return_value = [
@@ -38,6 +33,11 @@ class MessageRepositoryTests(DITestCase):
 
     def test_getLatest(self):
         from scrolls.repositories.message import MessageRepository
+        self.message.fromTuple.side_effect = lambda t: ('M', t[0], t[1])
         messages = MessageRepository(self.dependencies)
-        self.filesys.readJson.return_value = list(range(10))
-        self.assertEqual(messages.getLatest(3), [7, 8, 9])
+        self.filesys.readJson.return_value = [(n, str(n)) for n in range(10)]
+        self.assertEqual(messages.getLatest(3), [
+            ('M', 7, '7'),
+            ('M', 8, '8'),
+            ('M', 9, '9')
+        ])

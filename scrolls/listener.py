@@ -33,5 +33,5 @@ class Listener(object):
     def flushCache(self, server):
         nCached = len(server.cache)
         tuples = list(reversed([server.cache.pop() for _ in range(nCached)]))
-        newMessages = [self.message.reconstruct(t[0], t[1]) for t in tuples]
+        newMessages = [self.message.fromTuple(t) for t in tuples]
         self.messages.add(newMessages)

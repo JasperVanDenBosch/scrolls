@@ -6,6 +6,7 @@ class MessageRepository(object):
 
     def __init__(self, dependencies):
         self.filesys = dependencies.getFilesystem()
+        self.message = dependencies.getMessageFactory()
         self.path = 'scrolls.json'
 
     def add(self, newMessages):
@@ -25,7 +26,8 @@ class MessageRepository(object):
 
     def getLatest(self, n=10):
         all = self.filesys.readJson(self.path) or []
-        return all[-n:]
+        latestRecords = all[-n:]
+        return [self.message.fromTuple(t) for t in latestRecords]
 
     def messageToRecord(self, message):
         return message
