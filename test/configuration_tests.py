@@ -33,11 +33,14 @@ class ConfigurationTests(DITestCase):
         from scrolls.configuration import Configuration
         config = Configuration(self.dependencies)
         self.assertEqual(config.server, '0.0.0.0')
+        self.assertEqual(config.dry_run, False)
         self.parser.get.side_effect = lambda s, k: 'somewhere.else'
         args = Mock()
         args.server = 'remote.com'
+        args.dry_run = True
         config.useCommandlineArgs(args)
         self.assertEqual(config.server, 'remote.com')
+        self.assertEqual(config.dry_run, True)
 
     def test_If_config_file_reads_it(self):
         from scrolls.configuration import Configuration

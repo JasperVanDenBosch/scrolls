@@ -19,6 +19,12 @@ def main():
         '--server',
         default=argparse.SUPPRESS,
         help='The hostname of the machine running scrolls.')
+    configure.add_argument(
+        '--dry-run', '-d',
+        action='store_const',
+        const=True,
+        default=False,
+        help='Simulate configure() but don\'t make any filesystem changes.')
 
     subparsers.add_parser(
         'listen',
@@ -28,10 +34,10 @@ def main():
         'serve',
         help='Start a webserver that allows scrolling through the logs.')
 
-    configure = subparsers.add_parser(
+    secrets = subparsers.add_parser(
         'generate-secrets',
         help='Print credentials to insert in your scrolls.conf file.')
-    configure.add_argument(
+    secrets.add_argument(
         'password',
         help='A password of your choice.')
 

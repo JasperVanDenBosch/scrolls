@@ -20,6 +20,9 @@ class Configuration(object):
     server = '0.0.0.0'
     """str: URL of the log server."""
 
+    dry_run = False
+    """bool: Simulate configure() but don't make filesystem changes."""
+
     password_secret = 'papyrus'
     """str: Any string you choose. This is used to encrypt your password.
     You can generate this by running `scrolls generate-secrets`."""
@@ -58,3 +61,5 @@ class Configuration(object):
     def useCommandlineArgs(self, args):
         if hasattr(args, 'server'):
             self.server = args.server
+        if hasattr(args, 'dry_run'):
+            self.dry_run = args.dry_run
