@@ -8,6 +8,9 @@
 .. image:: https://codeclimate.com/github/ilogue/scrolls/badges/gpa.svg
    :target: https://codeclimate.com/github/ilogue/scrolls
    :alt: Code Climate
+.. image:: https://readthedocs.org/projects/scrolls/badge/?version=latest
+   :target: http://scrolls.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
 
 
 scrolls
