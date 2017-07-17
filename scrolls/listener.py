@@ -7,6 +7,7 @@ class Listener(object):
         self.serverClass = serverClass
         self.clock = dependencies.getClock()
         self.messages = dependencies.getMessageRepository()
+        self.message = dependencies.getMessageFactory()
 
     def listen(self):
 
@@ -24,10 +25,13 @@ class Listener(object):
             try:
                 server.handle_request()
                 if self.clock.time() >= nextFlushTime:
-                    nCached = len(server.cache)
-                    newMessages = [server.cache.pop() for _ in range(nCached)]
-                    newMessages = list(reversed(newMessages))
-                    self.messages.add(newMessages)
+                    self.flushCache(server)
                     nextFlushTime = self.clock.time() + 0.05
             except KeyboardInterrupt:
                 break
+
+    def flushCache(self, server):
+        nCached = len(server.cache)
+        tuples = list(reversed([server.cache.pop() for _ in range(nCached)]))
+        newMessages = [self.message.reconstruct(t[0], t[1]) for t in tuples]
+        self.messages.add(newMessages)
