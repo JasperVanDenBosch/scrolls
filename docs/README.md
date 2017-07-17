@@ -1,3 +1,0 @@
-
-
-sphinx-autobuild source/ build/
