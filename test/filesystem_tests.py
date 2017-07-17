@@ -30,6 +30,22 @@ class FilesystemTests(DITestCase):
                                                     'my content',
                                                     self.config.dry_run)
 
+    def test_write_honors_dry_run(self):
+        from scrolls.filesystem import Filesystem
+        self.config.dry_run = True
+        with patch('scrolls.filesystem.open', create=True) as open:
+            filesys = Filesystem(self.dependencies)
+            filesys.write('/my/file', 'my content')
+            assert not open.called
+
+    def test_run_honors_dry_run(self):
+        from scrolls.filesystem import Filesystem
+        self.config.dry_run = True
+        with patch('scrolls.filesystem.subprocess') as subprocess:
+            filesys = Filesystem(self.dependencies)
+            filesys.run(['a', 'b', 'c'])
+            assert not subprocess.check_call.called
+
     def test_run_notifies_log(self):
         from scrolls.filesystem import Filesystem
         with patch('scrolls.filesystem.subprocess') as subprocess:

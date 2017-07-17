@@ -10,8 +10,9 @@ class Filesystem(object):
         self.log = dependencies.getLog()
 
     def write(self, path, contents):
-        with open(path, 'w') as fh:
-            fh.write(contents)
+        if not self.config.dry_run:
+            with open(path, 'w') as fh:
+                fh.write(contents)
         self.log.fileWritten(path, contents, self.config.dry_run)
 
     def writeLines(self, path, lines):
@@ -29,7 +30,8 @@ class Filesystem(object):
         return contents
 
     def run(self, commands):
-        subprocess.check_call(commands)
+        if not self.config.dry_run:
+            subprocess.check_call(commands)
         self.log.ranCommand(commands, self.config.dry_run)
 
     def readJson(self, path):
