@@ -12,12 +12,16 @@ class Dependencies(object):
     """
     Dependency Injection service.
     """
+    def __init__(self):
+        self.config = None
 
     def getClock(self):
         return Clock()
 
     def getConfiguration(self):
-        return Configuration(self)
+        if self.config is None:
+            self.config = Configuration(self)
+        return self.config
 
     def getFilesystem(self):
         return Filesystem(self)
