@@ -9,11 +9,12 @@ class Filesystem(object):
         self.config = dependencies.getConfiguration()
         self.log = dependencies.getLog()
 
-    def write(self, path, contents):
+    def write(self, path, contents, silent=False):
         if not self.config.dry_run:
             with open(path, 'w') as fh:
                 fh.write(contents)
-        self.log.wroteFile(path, contents, self.config.dry_run)
+        if not silent:
+            self.log.wroteFile(path, contents, self.config.dry_run)
 
     def writeLines(self, path, lines):
         with open(path, 'w') as fh:
@@ -40,7 +41,7 @@ class Filesystem(object):
         return json.loads(self.read(path))
 
     def writeJson(self, path, data):
-        self.write(path, json.dumps(data))
+        self.write(path, json.dumps(data), silent=True)
 
     def hasPackage(self, pkgName):
         try:
