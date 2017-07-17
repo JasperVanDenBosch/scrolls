@@ -39,7 +39,7 @@ class Configuration(object):
     def __init__(self, dependencies):
         self.filesystem = dependencies.getFilesystem()
         configFilePath = os.path.expanduser('~/scrolls.conf')
-        methods = ['useCommandlineArgs', 'detectApplications']
+        methods = ['useCommandlineArgs', 'selectApplications']
         if os.path.isfile(configFilePath):
             keys = [k for k in dir(self) if k[0] != '_' and k not in methods]
             defaults = {k: getattr(self, k) for k in keys}
@@ -66,7 +66,7 @@ class Configuration(object):
         if hasattr(args, 'dry_run'):
             self.dry_run = args.dry_run
 
-    def detectApplications(self):
+    def selectApplications(self):
         applications = {}
         packages = {
             'mongodb': {'mongodb': '/var/log/mongodb/mongodb.log'},
