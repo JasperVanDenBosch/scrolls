@@ -6,7 +6,7 @@ class Listener(object):
     def __init__(self, serverClass, dependencies):
         self.serverClass = serverClass
         self.clock = dependencies.getClock()
-        self.messages = dependencies.getMessageRepository()
+        self.messages = dependencies.getMessageImporter()
         self.message = dependencies.getMessageFactory()
 
     def listen(self):
@@ -34,4 +34,4 @@ class Listener(object):
         nCached = len(server.cache)
         tuples = list(reversed([server.cache.pop() for _ in range(nCached)]))
         newMessages = [self.message.fromTuple(t) for t in tuples]
-        self.messages.add(newMessages)
+        self.messages.import_(newMessages)

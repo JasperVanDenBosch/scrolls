@@ -3,6 +3,7 @@ from scrolls.configuration import Configuration
 from scrolls.factories.message import MessageFactory
 from scrolls.filesystem import Filesystem
 from scrolls.log import Log
+from scrolls.importer import MessageImporter
 from scrolls.repositories.message import MessageRepository
 from scrolls.rsyslog import RSyslog
 from scrolls.security import Security
@@ -37,6 +38,9 @@ class Dependencies(object):
 
     def getMessageFactory(self):
         return MessageFactory(self)
+
+    def getMessageImporter(self):
+        return MessageImporter(self)
 
     def getMessageRepository(self):
         return MessageRepository(self)

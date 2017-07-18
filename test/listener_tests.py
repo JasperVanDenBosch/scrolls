@@ -30,8 +30,8 @@ class ListenerTests(DITestCase):
         self.server.raiseKeyboardInterruptOnRequestNo = 9
         listener = Listener(self.ServerClass, self.dependencies)
         listener.listen()
-        self.assertEqual(self.messages.add.call_count, 1)
-        self.messages.add.assert_called_with([
+        self.assertEqual(self.importer.import_.call_count, 1)
+        self.importer.import_.assert_called_with([
             ('M', 'msg1client', 'msg1'),
             ('M', 'msg2client', 'msg2'),
             ('M', 'msg3client', 'msg3'),
