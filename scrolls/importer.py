@@ -5,6 +5,12 @@ class MessageImporter(object):
 
     def __init__(self, dependencies):
         self.repository = dependencies.getMessageRepository()
+        self.stats = dependencies.getStatisticRepository()
+        self.count = dependencies.getCounterFactory()
+        self.counters = [
+            self.count.byHost(),
+            self.count.byApp()
+        ]
 
     def import_(self, messages):
         """Handles a batch of new messages
@@ -18,3 +24,8 @@ class MessageImporter(object):
         if messages == []:
             return
         self.repository.add(messages)
+        for counter in self.counters:
+            for message in messages:
+                counter.add(message)
+            self.stats.update(counter.name, counter.counts)
+            counter.reset()

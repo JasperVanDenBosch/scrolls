@@ -18,6 +18,8 @@ class DITestCase(TestCase):
         self.security.hashPassword = lambda p: p + '+secret'
         self.message = Mock()
         self.importer = Mock()
+        self.stats = Mock()
+        self.count = Mock()
         deps.getMessageRepository.return_value = self.messages
         deps.getClock.return_value = self.clock
         deps.getConfiguration.return_value = self.config
@@ -28,4 +30,6 @@ class DITestCase(TestCase):
         deps.getLog.return_value = self.log
         deps.getMessageFactory.return_value = self.message
         deps.getMessageImporter.return_value = self.importer
+        deps.getStatisticRepository.return_value = self.stats
+        deps.getCounterFactory.return_value = self.count
         self.dependencies = deps
