@@ -2,7 +2,6 @@ from test.ditestcase import DITestCase
 from datetime import datetime
 from mock import Mock
 from dateutil.tz import tzoffset
-import time
 
 
 class MessageTests(DITestCase):
@@ -68,5 +67,3 @@ class MessageTests(DITestCase):
             'app': 'sshd',
             'content': 'Received disconnect from 59.45.175.67',
         })
-
-

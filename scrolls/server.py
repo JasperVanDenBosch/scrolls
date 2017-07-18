@@ -22,6 +22,7 @@ class Server(object):
         pyrConf.set_authentication_policy(authnPolicy)
         pyrConf.set_authorization_policy(ACLAuthorizationPolicy())
         pyrConf.include('pyramid_jinja2')
+        pyrConf.add_static_view('static', 'static', cache_max_age=10)
         pyrConf.add_route('home', '/')
         pyrConf.add_route('login', '/login')
         pyrConf.add_route('logout', '/logout')

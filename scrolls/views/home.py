@@ -11,4 +11,4 @@ class HomeView(ProtectedView):
 
     @view_config(request_method='GET', renderer='home.jinja2')
     def get(self):
-        return {'latest': self.messages.getLatest()}
+        return {'latest': self.messages.getLatest(n=30)}
