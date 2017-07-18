@@ -1,0 +1,13 @@
+
+body {
+    white-space: nowrap;
+    overflow: scroll;
+}
+ul {
+	list-style-type: none;
+}
+li:hover {background-color: Gainsboro;}
+span {display: inline-block; }
+.datetime {min-width: 8em;}
+.hostname {min-width: 6em;}
+.app {min-width: 6em;}

@@ -1,5 +1,6 @@
 from scrolls.clock import Clock
 from scrolls.configuration import Configuration
+from scrolls.factories.message import MessageFactory
 from scrolls.filesystem import Filesystem
 from scrolls.log import Log
 from scrolls.repositories.message import MessageRepository
@@ -33,6 +34,9 @@ class Dependencies(object):
 
     def getLog(self):
         return Log(self)
+
+    def getMessageFactory(self):
+        return MessageFactory(self)
 
     def getMessageRepository(self):
         return MessageRepository(self)
