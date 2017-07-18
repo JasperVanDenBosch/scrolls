@@ -1,4 +1,3 @@
 include *.txt *.ini *.cfg *.rst
-recursive-include scrolls *.jinja2
+recursive-include scrolls *.jinja2 *.css
 include requirements.txt
-
