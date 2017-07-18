@@ -33,3 +33,40 @@ class MessageTests(DITestCase):
             123.456, 'client', 'data'
         ))
 
+    def test_hostname(self):
+        from scrolls.models.message import Message
+        data = ('<38>1 2017-07-18T00:36:21.238521+00:00 www sshd 11943 ' +
+                '- - Received disconnect from 59.45.175.67\n')
+        message = Message('client', data)
+        self.assertEqual(message.getHostname(), 'www')
+
+    def test_app(self):
+        from scrolls.models.message import Message
+        data = ('<38>1 2017-07-18T00:36:21.238521+00:00 www sshd 11943 ' +
+                '- - Received disconnect from 59.45.175.67\n')
+        message = Message('client', data)
+        self.assertEqual(message.getApp(), 'sshd')
+
+    def test_content(self):
+        from scrolls.models.message import Message
+        data = ('<38>1 2017-07-18T00:36:21.238521+00:00 www sshd 11943 ' +
+                '- - Received disconnect from 59.45.175.67\n')
+        message = Message('client', data)
+        self.assertEqual(message.getContent(),
+                         'Received disconnect from 59.45.175.67')
+
+    def test_toDict(self):
+        from scrolls.models.message import Message
+        data = ('<38>1 2017-07-18T00:36:21.238521+00:00 www sshd 11943 ' +
+                '- - Received disconnect from 59.45.175.67\n')
+        dt = datetime(2017, 7, 18, 00, 36, 21, 238521,
+                      tzinfo=tzoffset(None, 0))
+        message = Message('client', data)
+        self.assertEqual(message.toDict(), {
+            'datetime': dt,
+            'hostname': 'www',
+            'app': 'sshd',
+            'content': 'Received disconnect from 59.45.175.67',
+        })
+
+
