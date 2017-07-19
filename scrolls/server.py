@@ -41,9 +41,6 @@ class Server(object):
                                    'dependencies', reify=True)
         pyrConf.add_request_method(lambda r: r.unauthenticated_userid,
                                    'user_logged_in', reify=True)
-
-
-
         pyrConf.scan('scrolls.views')
         return pyrConf.make_wsgi_app()
 

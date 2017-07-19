@@ -19,4 +19,4 @@ class StatisticRepository(object):
     def get(self, name):
         path = name + '.json'
         record = self.filesys.readJson(path) or {}
-        return {tuple(k.split(',')):v for k,v in record.items()}
+        return {tuple(k.split(',')): v for k, v in record.items()}
