@@ -10,13 +10,13 @@ class HomeViewTests(ViewTestCase):
     def test_get_returns_latest_messages(self):
         from scrolls.views.home import HomeView
         view = HomeView(self.request)
-        out = view.get()
+        out = view.get_root()
         self.assertEqual(out['latest'], self.messages.getLatest())
 
     def test_get_returns_host_and_app_counts(self):
         from scrolls.views.home import HomeView
         view = HomeView(self.request)
-        out = view.get()
+        out = view.get_root()
         self.assertEqual(out['hostnames'],
                          self.stats.get('hostname'))
         self.assertEqual(out['apps'],
