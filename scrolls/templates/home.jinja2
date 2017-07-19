@@ -23,6 +23,8 @@
 </ul>
 <p id="clock"></p>
 
+<p>{{apps}}</p>
+
 <script>
     $(".datetime").html(function(index, value) {
         return moment(value, "YYYY-MM-DD HH:mm:ss.SSSSSSZ").fromNow();
