@@ -17,6 +17,13 @@ class DependenciesTests(TestCase):
         dependency = dependencies.getConfiguration()
         self.assertIsInstance(dependency, Configuration)
 
+    def test_getCounterFactory(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.factories.counter import CounterFactory
+        dependencies = Dependencies()
+        dependency = dependencies.getCounterFactory()
+        self.assertIsInstance(dependency, CounterFactory)
+
     def test_getFilesystem(self):
         from scrolls.dependencies import Dependencies
         from scrolls.filesystem import Filesystem
@@ -45,6 +52,13 @@ class DependenciesTests(TestCase):
         dependency = dependencies.getMessageFactory()
         self.assertIsInstance(dependency, MessageFactory)
 
+    def test_getMessageImporter(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.importer import MessageImporter
+        dependencies = Dependencies()
+        dependency = dependencies.getMessageImporter()
+        self.assertIsInstance(dependency, MessageImporter)
+
     def test_getMessageRepository(self):
         from scrolls.dependencies import Dependencies
         from scrolls.repositories.message import MessageRepository
@@ -72,3 +86,10 @@ class DependenciesTests(TestCase):
         dependencies = Dependencies()
         dependency = dependencies.getServer()
         self.assertIsInstance(dependency, Server)
+
+    def test_getStatisticRepository(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.repositories.statistic import StatisticRepository
+        dependencies = Dependencies()
+        dependency = dependencies.getStatisticRepository()
+        self.assertIsInstance(dependency, StatisticRepository)

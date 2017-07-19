@@ -10,8 +10,6 @@ class MessageRepository(object):
         self.path = 'scrolls.json'
 
     def add(self, newMessages):
-        if not newMessages:
-            return
         newRecords = [m.toTuple() for m in newMessages]
         sortedNewRecords = sorted(newRecords, key=itemgetter(0))
         all = self.filesys.readJson(self.path) or []

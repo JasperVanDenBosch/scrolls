@@ -2,6 +2,7 @@ from pyramid.config import Configurator
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 import waitress
+import operator
 
 
 class Server(object):
@@ -22,6 +23,16 @@ class Server(object):
         pyrConf.set_authentication_policy(authnPolicy)
         pyrConf.set_authorization_policy(ACLAuthorizationPolicy())
         pyrConf.include('pyramid_jinja2')
+
+        def setup_jinja2_env():
+            def sortedStats(stat):
+                return sorted(stat.items(), key=operator.itemgetter(1),
+                              reverse=True)
+
+            env = pyrConf.get_jinja2_environment()
+            env.filters['sortedStats'] = sortedStats
+        pyrConf.action(None, setup_jinja2_env, order=999)
+
         pyrConf.add_static_view('static', 'static', cache_max_age=10)
         pyrConf.add_route('home', '/')
         pyrConf.add_route('login', '/login')

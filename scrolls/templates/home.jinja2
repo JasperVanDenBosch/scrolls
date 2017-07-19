@@ -23,6 +23,17 @@
 </ul>
 <p id="clock"></p>
 
+<ol>
+{% for ((_, app), count) in apps|sortedStats %}
+    <li>{{app}}: {{count}}</li>
+{% endfor %}
+</ol>
+<ol>
+{% for ((_, host), count) in hostnames|sortedStats %}
+    <li>{{host}}: {{count}}</li>
+{% endfor %}
+</ol>
+
 <script>
     $(".datetime").html(function(index, value) {
         return moment(value, "YYYY-MM-DD HH:mm:ss.SSSSSSZ").fromNow();
