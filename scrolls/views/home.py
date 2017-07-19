@@ -2,7 +2,7 @@ from pyramid.view import view_config, view_defaults
 from scrolls.views.protected import ProtectedView
 
 
-@view_defaults(route_name='home')
+@view_defaults(context='scrolls.models.root.Root')
 class HomeView(ProtectedView):
 
     def __init__(self, request):

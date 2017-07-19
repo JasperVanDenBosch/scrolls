@@ -7,14 +7,14 @@ class AuthenticationViewTests(ViewTestCase):
     def test_forbidden_view_redirects_to_login(self):
         from scrolls.views.authentication import AuthenticationView
         view = AuthenticationView(self.request)
-        with self.assertRedirectsTo('login'):
+        with self.assertRedirectsToContext('login'):
             view.get_forbidden()
 
     def test_get_login_redirects_to_home_if_already_logged_in(self):
         from scrolls.views.authentication import AuthenticationView
         view = AuthenticationView(self.request)
         self.request.user_logged_in = True
-        with self.assertRedirectsTo('home'):
+        with self.assertRedirectsToContext():
             view.get_login()
 
     def test_get_login_GET_return_empty(self):
@@ -41,7 +41,7 @@ class AuthenticationViewTests(ViewTestCase):
         self.config.hashed_password = self.security.hashPassword('the truth')
         with patch('scrolls.views.authentication.remember') as remember:
             view = AuthenticationView(self.request)
-            with self.assertRedirectsTo('home') as redirect:
+            with self.assertRedirectsToContext() as redirect:
                 view.post_login()
             remember.assert_called_with(self.request, 'user',
                                         max_age=str(60*60*24*7))
@@ -51,7 +51,7 @@ class AuthenticationViewTests(ViewTestCase):
         from scrolls.views.authentication import AuthenticationView
         with patch('scrolls.views.authentication.forget') as forget:
             view = AuthenticationView(self.request)
-            with self.assertRedirectsTo('login') as redirect:
+            with self.assertRedirectsToContext('login') as redirect:
                 view.post_logout()
             forget.assert_called_with(self.request)
             redirect.assertIncludesHeaders(forget())

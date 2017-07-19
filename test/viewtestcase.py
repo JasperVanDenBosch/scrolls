@@ -14,6 +14,10 @@ class ViewTestCase(DITestCase):
         def route_url(route, **kwargs):
             return route, kwargs
         self.request.route_url = route_url
+
+        def resource_url(ctx, *elem, **kwargs):
+            return ctx, elem, kwargs
+        self.request.resource_url = resource_url
         self.request.matchdict = {'iam': 'the matchdict'}
         self.request.POST = {'iam': 'the POST dict'}
         self.request.params = {'iam': 'the PARAMS dict'}
@@ -22,6 +26,10 @@ class ViewTestCase(DITestCase):
     def tearDown(self):
         testing.tearDown()
 
-    def assertRedirectsTo(self, route, **kwargs):
+    def assertRedirectsToRoute(self, route, **kwargs):
         loc = self.request.route_url(route, **kwargs)
+        return RedirectionContextManager(self, loc)
+
+    def assertRedirectsToContext(self, *elem, **kwargs):
+        loc = self.request.resource_url(self.request.context, *elem, **kwargs)
         return RedirectionContextManager(self, loc)

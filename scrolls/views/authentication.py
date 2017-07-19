@@ -1,9 +1,9 @@
-from pyramid.httpexceptions import HTTPFound
-from pyramid.view import forbidden_view_config, view_config, view_defaults
+from pyramid.httpexceptions import HTTPFound, HTTPForbidden
+from pyramid.view import view_config, view_defaults
 from pyramid.security import remember, forget
 
 
-@view_defaults(renderer='login.jinja2')
+@view_defaults(context='scrolls.models.root.Root', renderer='login.jinja2')
 class AuthenticationView(object):
 
     def __init__(self, request):
@@ -11,27 +11,30 @@ class AuthenticationView(object):
         self.security = self.request.dependencies.getSecurity()
         self.config = self.request.dependencies.getConfiguration()
 
-    @forbidden_view_config()
+    @view_config(context=HTTPForbidden)
     def get_forbidden(self):
-        raise HTTPFound(self.request.route_url('login'))
+        raise HTTPFound(self.context_url('login'))
 
-    @view_config(route_name='login', request_method='GET')
+    @view_config(name='login', request_method='GET')
     def get_login(self):
         if self.request.user_logged_in:
-            raise HTTPFound(self.request.route_url('home'))
+            raise HTTPFound(self.context_url())
         return {'failedAttempt': False}
 
-    @view_config(route_name='login', request_method='POST')
+    @view_config(name='login', request_method='POST')
     def post_login(self):
         self.get_login()
         password = self.request.POST.get('password')
         hashed = self.security.hashPassword(password)
         if hashed == self.config.hashed_password:
             headers = remember(self.request, 'user', max_age=str(60*60*24*7))
-            raise HTTPFound(self.request.route_url('home'), headers=headers)
+            raise HTTPFound(self.context_url(), headers=headers)
         return {'failedAttempt': True}
 
-    @view_config(route_name='logout', request_method='POST')
+    @view_config(name='logout', request_method='POST')
     def post_logout(self):
         headers = forget(self.request)
-        raise HTTPFound(self.request.route_url('login'), headers=headers)
+        raise HTTPFound(self.context_url('login'), headers=headers)
+
+    def context_url(self, *elements, **kw):
+        return self.request.resource_url(self.request.context, *elements, **kw)
