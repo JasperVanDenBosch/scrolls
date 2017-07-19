@@ -7,8 +7,8 @@ class CounterFactory(object):
     def __init__(self, dependencies):
         pass
 
-    def byHost(self):
-        return Counter('host')
+    def byHostname(self):
+        return Counter('hostname')
 
     def byApp(self):
         return Counter('app')

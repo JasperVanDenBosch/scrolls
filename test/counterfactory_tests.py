@@ -11,6 +11,6 @@ class CounterFactoryTests(DITestCase):
             counter = count.byApp()
             Counter.assert_called_with('app')
             self.assertEqual(counter, Counter())
-            counter = count.byHost()
-            Counter.assert_called_with('host')
+            counter = count.byHostname()
+            Counter.assert_called_with('hostname')
             self.assertEqual(counter, Counter())

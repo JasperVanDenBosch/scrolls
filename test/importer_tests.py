@@ -36,7 +36,7 @@ class ImporterTests(DITestCase):
         importer = MessageImporter(self.dependencies)
         self.assertIn(self.count.byApp(), importer.counters)
 
-    def test_has_counter_byHost(self):
+    def test_has_counter_byHostname(self):
         from scrolls.importer import MessageImporter
         importer = MessageImporter(self.dependencies)
-        self.assertIn(self.count.byHost(), importer.counters)
+        self.assertIn(self.count.byHostname(), importer.counters)

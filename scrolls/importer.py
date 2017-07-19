@@ -8,7 +8,7 @@ class MessageImporter(object):
         self.stats = dependencies.getStatisticRepository()
         self.count = dependencies.getCounterFactory()
         self.counters = [
-            self.count.byHost(),
+            self.count.byHostname(),
             self.count.byApp()
         ]
 
