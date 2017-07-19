@@ -18,6 +18,6 @@ class HomeViewTests(ViewTestCase):
         view = HomeView(self.request)
         out = view.get()
         self.assertEqual(out['hostnames'],
-                         self.stats.get(self.count.byHostname()))
+                         self.stats.get('hostname'))
         self.assertEqual(out['apps'],
-                         self.stats.get(self.count.byApp()))
+                         self.stats.get('app'))

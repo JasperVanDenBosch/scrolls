@@ -15,6 +15,6 @@ class HomeView(ProtectedView):
     def get(self):
         return {
             'latest': self.messages.getLatest(n=30),
-            'hostnames': self.stats.get(self.count.byHostname()),
-            'apps': self.stats.get(self.count.byApp())
+            'hostnames': self.stats.get('hostname'),
+            'apps': self.stats.get('app')
         }
