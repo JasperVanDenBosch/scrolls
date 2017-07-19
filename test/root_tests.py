@@ -3,5 +3,8 @@ from test.ditestcase import DITestCase
 
 class RootTests(DITestCase):
 
-    def test_sth(self):
-        pass
+    def test_filter_returns_Filter(self):
+        from scrolls.models.root import Root
+        from scrolls.models.filter import Filter
+        root = Root(None)
+        self.assertIsInstance(root['filter'], Filter)
