@@ -1,12 +1,14 @@
+from scrolls.models.counter import Counter
 
 
 class CounterFactory(object):
+    """Builds :class:`Counter` objects"""
 
     def __init__(self, dependencies):
         pass
 
     def byHost(self):
-        pass
+        return Counter('host')
 
     def byApp(self):
-        pass
+        return Counter('app')
