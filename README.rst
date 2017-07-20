@@ -12,7 +12,7 @@
    :target: http://scrolls.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
-
+=======
 scrolls
 =======
 
@@ -23,18 +23,22 @@ Install scrolls::
 
   pip install scrolls
 
-
 Configure the system to forward log events::
 
   scrolls configure --server my.scrolls-server.org
-
 
 Start listening to log events::
 
   scrolls listen
 
-
 Launch web app to view log messages from a browser::
 
   scrolls serve
+  
+  
+Features
+========
+
+- Browse events by application or host
+- Limit access to the web app by password
 
