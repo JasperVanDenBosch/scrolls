@@ -8,9 +8,10 @@
 </head>
 <body>
 
-<form action="{{ request.resource_url(request.root, 'logout') }}" method="POST">
-    <input type="submit" value="logout">
-</form>
+
+
+<div id="container">
+
 
 <div id="messages">
     <ul>
@@ -25,19 +26,27 @@
 </div>
 
 <nav id="sidebar">
+
+    <form action="{{ request.resource_url(request.root, 'logout') }}" method="POST">
+        <input type="submit" value="logout">
+    </form>
+
     <h4>apps</h4>
     <ol>
     {% for ((_, app), count) in apps|sortedStats %}
-        <li><a href="{{ request.resource_url(request.root['filter']['app'][app]) }}">{{app}} ( {{count}} )</a></li>
+        <li><a href="{{ request.resource_url(request.root['filter']['app'][app]) }}">{{app[:14]}} ( {{count}} )</a></li>
     {% endfor %}
     </ol>
     <h4>hosts</h4>
     <ol>
     {% for ((_, host), count) in hostnames|sortedStats %}
-        <li><a href="{{ request.resource_url(request.root['filter']['hostname'][host]) }}">{{host}} ( {{count}} )</a></li>
+        <li><a href="{{ request.resource_url(request.root['filter']['hostname'][host]) }}">{{host[:14]}} ( {{count}} )</a></li>
     {% endfor %}
     </ol>
 </nav>
+
+
+</div>
 
 <script>
     $(".datetime").html(function(index, value) {

@@ -1,17 +1,22 @@
-
+html {width: 100%}
 body {
     white-space: nowrap;
+    width: 100%
 
-    display: table;
+}
+#container {
+    margin-right: 270px;
 }
 #sidebar {
-    min-width: 200px;
-    display: table-cell;
+    position: fixed;
+    top:0px;
+    right: 0px;
+    width: 250px;
+    min-width: 250px;
 }
-
 #messages {
-    display: table-cell;
-    
+    position: relative;
+    width: 100%;
     overflow: scroll;
 }
 
