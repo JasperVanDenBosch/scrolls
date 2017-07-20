@@ -25,11 +25,11 @@ class MessageRepositoryTests(DITestCase):
 
     def test_add_limits_database_to_1000_records(self):
         from scrolls.repositories.message import MessageRepository
-        self.filesys.readJson.return_value = [(888, 'a msg')] * 600
+        self.filesys.readJson.return_value = [(888, 'a msg')] * 4500
         messages = MessageRepository(self.dependencies)
         messages.add([self.messageWithTimestamp(999)] * 600)
         saved = self.filesys.writeJson.call_args[0][1]
-        self.assertEqual(len(saved), 1000)
+        self.assertEqual(len(saved), 5000)
 
     def test_getLatest(self):
         from scrolls.repositories.message import MessageRepository
@@ -48,7 +48,7 @@ class MessageRepositoryTests(DITestCase):
         messages = MessageRepository(self.dependencies)
         self.filesys.readJson.return_value = [(n, str(n)) for n in range(10)]
         filter = Mock()
-        filter.accepts.side_effect = lambda m: (m[0] % 2 == 0)
+        filter.accepts.side_effect = lambda m: (m[1] % 2 == 0)
         self.assertEqual(messages.getLatest(filter=filter, n=3), [
             ('M', 4, '4'),
             ('M', 6, '6'),

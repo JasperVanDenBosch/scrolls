@@ -13,7 +13,7 @@ class MessageRepository(object):
         newRecords = [m.toTuple() for m in newMessages]
         sortedNewRecords = sorted(newRecords, key=itemgetter(0))
         all = self.filesys.readJson(self.path) or []
-        d = collections.deque(all, 1000)
+        d = collections.deque(all, 5000)
         d.extend(sortedNewRecords)
         all = list(d)
         all.sort(key=itemgetter(0))
@@ -21,6 +21,11 @@ class MessageRepository(object):
 
     def getLatest(self, filter, n=40):
         all = self.filesys.readJson(self.path) or []
-        selected = [r for r in all if filter.accepts(r)]
-        latest = selected[-n:]
-        return [self.message.fromTuple(t) for t in latest]
+        selectedMessages = []
+        for record in reversed(all):
+            message = self.message.fromTuple(record)
+            if filter.accepts(message):
+                selectedMessages.append(message)
+            if len(selectedMessages) >= n:
+                break
+        return list(reversed(selectedMessages))

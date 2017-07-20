@@ -26,4 +26,9 @@ class Filter(object):
         return self
 
     def accepts(self, message):
-        return True
+        if len(self.path) < 2:
+            return True
+        mdict = message.toDict()
+        if self.path[1] == mdict.get(self.path[0]):
+            return True
+        return False

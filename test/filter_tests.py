@@ -29,6 +29,39 @@ class FilterTests(DITestCase):
         self.assertEqual(nginx2Filter.__name__, 'nginx2')
         self.assertEqual(nginx2Filter.__parent__, appFilter)
         self.assertTrue(nginx2Filter.resolvable)
-        self.assertEqual(nginx2Filter.path, ('app','nginx2'))
+        self.assertEqual(nginx2Filter.path, ('app', 'nginx2'))
         with self.assertRaises(KeyError):
             nginx2Filter['bla2']
+
+    def test_accepts(self):
+        from scrolls.models.filter import Filter
+        filter = Filter(Mock())['app']['scrolls']
+        self.assertTrue(filter.accepts(self.messageThatDictifiesTo({
+            'app': 'scrolls'
+        })))
+        self.assertFalse(filter.accepts(self.messageThatDictifiesTo({
+            'app': 'other'
+        })))
+        self.assertFalse(filter.accepts(self.messageThatDictifiesTo({
+            'hostname': 'scrolls'
+        })))
+
+    def test_Unresolvable_filter_accepts_anything(self):
+        from scrolls.models.filter import Filter
+        filter = Filter(Mock())['app']
+        self.assertTrue(filter.accepts(self.messageThatDictifiesTo({
+            'app': 'scrolls'
+        })))
+        filter = Filter(Mock())['hostname']
+        self.assertTrue(filter.accepts(self.messageThatDictifiesTo({
+            'app': 'other'
+        })))
+        filter = Filter(Mock())
+        self.assertTrue(filter.accepts(self.messageThatDictifiesTo({
+            'hostname': 'scrolls'
+        })))
+
+    def messageThatDictifiesTo(self, d):
+        message = Mock()
+        message.toDict.return_value = d
+        return message
