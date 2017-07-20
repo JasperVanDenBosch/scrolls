@@ -23,7 +23,7 @@ Install scrolls::
 
   pip install scrolls
 
-Configure the system to forward log events::
+Configure a client system to forward log events to scrolls::
 
   scrolls configure --server my.scrolls-server.org
 
