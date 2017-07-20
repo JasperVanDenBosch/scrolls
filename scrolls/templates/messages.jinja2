@@ -13,7 +13,7 @@
 </form>
 
 <ul>
-{% for message in latest %}
+{% for message in messages %}
     <li>
 {% for attribute in ('datetime', 'hostname', 'app', 'content') %}
         <span class="{{ attribute }}">{{ message.toDict()[attribute] }}</span>

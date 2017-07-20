@@ -36,10 +36,23 @@ class MessageRepositoryTests(DITestCase):
         self.message.fromTuple.side_effect = lambda t: ('M', t[0], t[1])
         messages = MessageRepository(self.dependencies)
         self.filesys.readJson.return_value = [(n, str(n)) for n in range(10)]
-        self.assertEqual(messages.getLatest(3), [
+        self.assertEqual(messages.getLatest(filter=Mock(), n=3), [
             ('M', 7, '7'),
             ('M', 8, '8'),
             ('M', 9, '9')
+        ])
+
+    def test_getLatest_uses_filter(self):
+        from scrolls.repositories.message import MessageRepository
+        self.message.fromTuple.side_effect = lambda t: ('M', t[0], t[1])
+        messages = MessageRepository(self.dependencies)
+        self.filesys.readJson.return_value = [(n, str(n)) for n in range(10)]
+        filter = Mock()
+        filter.accepts.side_effect = lambda m: (m[0] % 2 == 0)
+        self.assertEqual(messages.getLatest(filter=filter, n=3), [
+            ('M', 4, '4'),
+            ('M', 6, '6'),
+            ('M', 8, '8')
         ])
 
     def messageWithTimestamp(self, ts):

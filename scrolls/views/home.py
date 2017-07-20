@@ -11,14 +11,13 @@ class HomeView(ProtectedView):
         self.stats = request.dependencies.getStatisticRepository()
         self.count = request.dependencies.getCounterFactory()
 
+    @view_config(context='scrolls.models.filter.Filter')
     @view_config(context='scrolls.models.root.Root')
-    def get_root(self):
+    def get_latest(self):
+        filter = self.request.context.getFilter()
         return {
-            'latest': self.messages.getLatest(n=30),
+            'messages': self.messages.getLatest(filter),
+            'filter': filter,
             'hostnames': self.stats.get('hostname'),
             'apps': self.stats.get('app')
         }
-
-    @view_config(context='scrolls.models.filter.Filter')
-    def get_filter(self):
-        return self.get_root()

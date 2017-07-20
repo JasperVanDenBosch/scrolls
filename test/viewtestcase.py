@@ -1,6 +1,7 @@
 from pyramid import testing
 from test.ditestcase import DITestCase
 from test.redirectioncontextmanager import RedirectionContextManager
+from mock import Mock
 
 
 class ViewTestCase(DITestCase):
@@ -10,6 +11,7 @@ class ViewTestCase(DITestCase):
         self.pyramidconfig = testing.setUp()
         self.request = testing.DummyRequest()
         self.request.user_logged_in = False
+        self.request.context = Mock()
 
         def route_url(route, **kwargs):
             return route, kwargs

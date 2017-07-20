@@ -10,3 +10,9 @@ class FilterTests(DITestCase):
         filter = Filter(root)
         self.assertEqual(filter.__name__, 'filter')
         self.assertEqual(filter.__parent__, root)
+
+    def test_getFilter_returns_self(self):
+        from scrolls.models.filter import Filter
+        root = Mock()
+        filter = Filter(root)
+        self.assertEqual(filter.getFilter(), filter)

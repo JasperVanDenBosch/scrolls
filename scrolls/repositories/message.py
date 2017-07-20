@@ -19,7 +19,8 @@ class MessageRepository(object):
         all.sort(key=itemgetter(0))
         self.filesys.writeJson(self.path, all)
 
-    def getLatest(self, n=10):
+    def getLatest(self, filter, n=40):
         all = self.filesys.readJson(self.path) or []
-        latestRecords = all[-n:]
-        return [self.message.fromTuple(t) for t in latestRecords]
+        selected = [r for r in all if filter.accepts(r)]
+        latest = selected[-n:]
+        return [self.message.fromTuple(t) for t in latest]
