@@ -1,8 +1,20 @@
 
 body {
     white-space: nowrap;
+
+    display: table;
+}
+#sidebar {
+    min-width: 200px;
+    display: table-cell;
+}
+
+#messages {
+    display: table-cell;
+    
     overflow: scroll;
 }
+
 ul {
 	list-style-type: none;
 }
@@ -11,3 +23,5 @@ span {display: inline-block; }
 .datetime {min-width: 8em;}
 .hostname {min-width: 6em;}
 .app {min-width: 6em;}
+
+

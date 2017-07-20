@@ -12,27 +12,32 @@
     <input type="submit" value="logout">
 </form>
 
-<ul>
-{% for message in messages %}
-    <li>
-{% for attribute in ('datetime', 'hostname', 'app', 'content') %}
-        <span class="{{ attribute }}">{{ message.toDict()[attribute] }}</span>
-{% endfor %}
-    </li>
-{% endfor %}
-</ul>
-<p id="clock"></p>
+<div id="messages">
+    <ul>
+    {% for message in messages %}
+        <li>
+    {% for attribute in ('datetime', 'hostname', 'app', 'content') %}
+            <span class="{{ attribute }}">{{ message.toDict()[attribute] }}</span>
+    {% endfor %}
+        </li>
+    {% endfor %}
+    </ul>
+</div>
 
-<ol>
-{% for ((_, app), count) in apps|sortedStats %}
-    <li>{{app}}: {{count}}</li>
-{% endfor %}
-</ol>
-<ol>
-{% for ((_, host), count) in hostnames|sortedStats %}
-    <li>{{host}}: {{count}}</li>
-{% endfor %}
-</ol>
+<nav id="sidebar">
+    <h4>apps</h4>
+    <ol>
+    {% for ((_, app), count) in apps|sortedStats %}
+        <li><a href="{{ request.resource_url(request.root['filter']['app'][app]) }}">{{app}} ( {{count}} )</a></li>
+    {% endfor %}
+    </ol>
+    <h4>hosts</h4>
+    <ol>
+    {% for ((_, host), count) in hostnames|sortedStats %}
+        <li><a href="{{ request.resource_url(request.root['filter']['hostname'][host]) }}">{{host}} ( {{count}} )</a></li>
+    {% endfor %}
+    </ol>
+</nav>
 
 <script>
     $(".datetime").html(function(index, value) {
