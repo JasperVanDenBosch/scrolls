@@ -1,6 +1,7 @@
 from pyramid.config import Configurator
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from scrolls.models.root import Root
 import waitress
 import operator
 
@@ -17,7 +18,7 @@ class Server(object):
 
     def make_wsgi_app(self, **settings):
         settings['jinja2.directories'] = 'scrolls:templates'
-        pyrConf = Configurator(settings=settings)
+        pyrConf = Configurator(root_factory=Root, settings=settings)
         secret = self.config.ticket_secret
         authnPolicy = AuthTktAuthenticationPolicy(secret, hashalg='sha512')
         pyrConf.set_authentication_policy(authnPolicy)
@@ -34,9 +35,6 @@ class Server(object):
         pyrConf.action(None, setup_jinja2_env, order=999)
 
         pyrConf.add_static_view('static', 'static', cache_max_age=10)
-        pyrConf.add_route('home', '/')
-        pyrConf.add_route('login', '/login')
-        pyrConf.add_route('logout', '/logout')
         pyrConf.add_request_method(lambda r: self.dependencies,
                                    'dependencies', reify=True)
         pyrConf.add_request_method(lambda r: r.unauthenticated_userid,

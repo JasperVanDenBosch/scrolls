@@ -1,8 +1,25 @@
-
+html {width: 100%}
 body {
     white-space: nowrap;
+    width: 100%
+
+}
+#container {
+    margin-right: 270px;
+}
+#sidebar {
+    position: fixed;
+    top:0px;
+    right: 0px;
+    width: 250px;
+    min-width: 250px;
+}
+#messages {
+    position: relative;
+    width: 100%;
     overflow: scroll;
 }
+
 ul {
 	list-style-type: none;
 }
@@ -11,3 +28,5 @@ span {display: inline-block; }
 .datetime {min-width: 8em;}
 .hostname {min-width: 6em;}
 .app {min-width: 6em;}
+
+
