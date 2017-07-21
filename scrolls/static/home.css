@@ -2,7 +2,10 @@ html {width: 100%}
 body {
     white-space: nowrap;
     width: 100%
-
+    font-family: Sans-Serif;
+}
+span, li, h4, a, input {
+    font-family: Sans-Serif;
 }
 #container {
     margin-right: 270px;
@@ -17,16 +20,50 @@ body {
 #messages {
     position: relative;
     width: 100%;
-    overflow: scroll;
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
+ol.expandable {
+    height: 10em;
+    overflow:hidden;
+    transition: height 0.5s;
+    -webkit-transition: height 0.5s;
+}
+ol.expandable:hover {
+    height: auto;
+}
+@media all and (max-width:800px)
+{
+    #container {
+        margin-right: auto;
+    }
+    #sidebar
+    {
+        position: relative;
+        width: auto;
+        min-width: 0;
+        top:auto;
+        right: auto;
+    }
+}
+
 
 ul {
 	list-style-type: none;
+	padding: 2px;
+	margin: 0;
 }
 li:hover {background-color: Gainsboro;}
-span {display: inline-block; }
-.datetime {min-width: 8em;}
-.hostname {min-width: 6em;}
-.app {min-width: 6em;}
+span {display: inline-block;}
+.datetime {min-width: 8em; max-width:8em; }
+.hostname {min-width: 6em; max-width:6em; }
+.app {min-width: 6em; max-width:6em; }
+.datetime, .hostname, .app {
+    text-overflow: ellipsis;
+    overflow: hidden
+}
+.content {
+    font-style: italic;
+}
 
 
