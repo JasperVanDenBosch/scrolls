@@ -1,6 +1,6 @@
 from test.ditestcase import DITestCase
 from datetime import datetime
-from mock import Mock
+from mock import Mock, sentinel
 from dateutil.tz import tzoffset
 
 
@@ -77,3 +77,11 @@ class MessageTests(DITestCase):
             'app': 'sshd',
             'content': 'Received disconnect from 59.45.175.67',
         })
+
+    def test_resourcify(self):
+        from scrolls.models.message import Message
+        message = Message('client', 'data', 'xyz')
+        message.getId = Mock()
+        message.resourcify(parent=sentinel.parent)
+        self.assertEqual(message.__parent__, sentinel.parent)
+        self.assertEqual(message.__name__, message.getId())

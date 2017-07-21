@@ -35,7 +35,7 @@ class Server(object):
         pyrConf.action(None, setup_jinja2_env, order=999)
 
         pyrConf.add_static_view('static', 'static', cache_max_age=10)
-        pyrConf.add_request_method(lambda r: self.dependencies,
+        pyrConf.add_request_method(lambda r: self.dependencies.withRequest(r),
                                    'dependencies', reify=True)
         pyrConf.add_request_method(lambda r: r.unauthenticated_userid,
                                    'user_logged_in', reify=True)

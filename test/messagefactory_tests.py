@@ -1,5 +1,5 @@
 from test.ditestcase import DITestCase
-from mock import patch
+from mock import patch, Mock
 
 
 class MessageFactoryTests(DITestCase):
@@ -16,10 +16,24 @@ class MessageFactoryTests(DITestCase):
             msg = factory.fromTuple(('client', 'data'))
             Message.assert_called_with('client', 'data', 'def')
 
-    def test_3tuple(self):
+    def test_4tuple(self):
         from scrolls.factories.message import MessageFactory
         with patch('scrolls.factories.message.Message') as Message:
             factory = MessageFactory(self.dependencies)
-            msg = factory.fromTuple((123, 'client', 'data'))
-            Message.assert_called_with('client', 'data')
+            msg = factory.fromTuple((123, 'client', 'data', 'abc'))
+            Message.assert_called_with('client', 'data', 'abc')
             self.assertEqual(msg, Message())
+
+    def test_resourcifies_if_has_request(self):
+        from scrolls.factories.message import MessageFactory
+        request = Mock()
+        with patch('scrolls.factories.message.Message') as Message:
+            factory = MessageFactory(self.dependencies, request)
+            msg = factory.fromTuple((123, 'client', 'data', 'abc'))
+            Message().resourcify.assert_called_with(
+                parent=request.root.getIdResolver()
+            )
+            msg = factory.fromTuple(('client', 'data'))
+            Message().resourcify.assert_called_with(
+                parent=request.root.getIdResolver()
+            )

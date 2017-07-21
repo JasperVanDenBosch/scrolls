@@ -38,3 +38,7 @@ class Message(object):
 
     def toTuple(self):
         return self.getTimestamp(), self.client, self.data, self.shortuuid
+
+    def resourcify(self, parent):
+        self.__parent__ = parent
+        self.__name__ = self.getId()
