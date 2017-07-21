@@ -7,8 +7,9 @@ class AuthenticationViewTests(ViewTestCase):
     def test_forbidden_view_redirects_to_login(self):
         from scrolls.views.authentication import AuthenticationView
         view = AuthenticationView(self.request)
-        with self.assertRedirectsToContext('login'):
-            view.get_forbidden()
+        out = view.get_forbidden()
+        expected = self.request.resource_url(self.request.root, 'login')
+        self.assertEqual(out.location, expected)
 
     def test_get_login_redirects_to_home_if_already_logged_in(self):
         from scrolls.views.authentication import AuthenticationView
