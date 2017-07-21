@@ -49,5 +49,7 @@ def main(global_config, **settings):
     This is a pyramid-style entrypoint to be used with e.g.:
         pserve development.ini
     """
-    server = Server()
+    import scrolls.dependencies
+    dependencies = scrolls.dependencies.Dependencies()
+    server = Server(dependencies)
     return server.make_wsgi_app(**settings)
