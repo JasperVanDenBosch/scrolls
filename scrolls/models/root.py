@@ -11,6 +11,8 @@ class Root(object):
     def __getitem__(self, key):
         if key == 'filter':
             return Filter(parent=self)
+        else:
+            raise KeyError
 
     def getFilter(self):
         return self['filter']

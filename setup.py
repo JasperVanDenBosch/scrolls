@@ -26,5 +26,8 @@ setup(
     zip_safe=False,
     install_requires=requires,
     test_suite="test",
-    entry_points={'console_scripts': ['scrolls=scrolls.entrypoint:main']}
+    entry_points={
+        'console_scripts': ['scrolls=scrolls.entrypoint:main'],
+        'paste.app_factory': ['main = scrolls.server:main']
+    }
 )
