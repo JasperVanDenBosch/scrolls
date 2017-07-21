@@ -8,7 +8,7 @@ class MessageFactory(object):
     """
 
     def __init__(self, dependencies):
-        pass
+        self.security = dependencies.getSecurity()
 
     def fromTuple(self, mtuple):
         """Create a Message from a 2-tuple or a 3-tuple
@@ -16,6 +16,8 @@ class MessageFactory(object):
         If a 3-tuple is passed, the first element, presumed to be
         the timestamp, is discarded.
         """
-        if len(mtuple) == 3:
+        if len(mtuple) > 2:
             mtuple = mtuple[1:]
+        else:
+            mtuple += (self.security.generateShortUuid(),)
         return Message(*mtuple)
