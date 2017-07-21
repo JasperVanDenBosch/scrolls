@@ -13,7 +13,8 @@ class AuthenticationView(object):
 
     @view_config(context=HTTPForbidden)
     def get_forbidden(self):
-        raise HTTPFound(self.context_url('login'))
+        login_url = self.request.resource_url(self.request.root, 'login')
+        return HTTPFound(login_url)
 
     @view_config(name='login', request_method='GET')
     def get_login(self):
