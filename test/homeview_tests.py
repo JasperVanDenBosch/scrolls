@@ -37,3 +37,9 @@ class HomeViewTests(ViewTestCase):
         self.request.context.resolvable = False
         with self.assertRaises(HTTPNotFound):
             view.get_filter()
+
+    def test_get_message_returns_Message_context(self):
+        from scrolls.views.home import HomeView
+        view = HomeView(self.request)
+        out = view.get_message()
+        self.assertEqual(out['message'], self.request.context)

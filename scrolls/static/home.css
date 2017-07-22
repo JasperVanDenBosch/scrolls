@@ -54,16 +54,20 @@ ul {
 	margin: 0;
 }
 li:hover {background-color: Gainsboro;}
-span {display: inline-block;}
-.datetime {min-width: 8em; max-width:8em; }
-.hostname {min-width: 6em; max-width:6em; }
-.app {min-width: 6em; max-width:6em; }
-.datetime, .hostname, .app {
+#messages span {display: inline-block;}
+#messages .datetime {min-width: 8em; max-width:8em; }
+#messages .hostname {min-width: 6em; max-width:6em; }
+#messages .app {min-width: 6em; max-width:6em; }
+#messages .datetime, .hostname, .app {
     text-overflow: ellipsis;
     overflow: hidden
 }
-.content {
+#messages .content {
     font-style: italic;
 }
 
+nav > a {
+    padding: 0.5em;
+    font-size: large;
+}
 

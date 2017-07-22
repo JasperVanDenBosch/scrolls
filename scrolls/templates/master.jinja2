@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/static/home.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+</head>
+<body>
+
+    {% block body %}
+    {% endblock %}
+
+
+<script>
+    $(".datetime").html(function(index, value) {
+        return moment(value, "YYYY-MM-DD HH:mm:ss.SSSSSSZ").fromNow();
+    });
+</script>
+
+</body>
+</html>
