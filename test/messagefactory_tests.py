@@ -13,7 +13,7 @@ class MessageFactoryTests(DITestCase):
             msg = factory.fromTuple(('client', 'data'))
             Message.assert_called_with('client', 'data', 'abc')
             self.assertEqual(msg, Message())
-            msg = factory.fromTuple(('client', 'data'))
+            factory.fromTuple(('client', 'data'))
             Message.assert_called_with('client', 'data', 'def')
 
     def test_4tuple(self):
@@ -29,11 +29,11 @@ class MessageFactoryTests(DITestCase):
         request = Mock()
         with patch('scrolls.factories.message.Message') as Message:
             factory = MessageFactory(self.dependencies, request)
-            msg = factory.fromTuple((123, 'client', 'data', 'abc'))
+            factory.fromTuple((123, 'client', 'data', 'abc'))
             Message().resourcify.assert_called_with(
                 parent=request.root.getIdResolver()
             )
-            msg = factory.fromTuple(('client', 'data'))
+            factory.fromTuple(('client', 'data'))
             Message().resourcify.assert_called_with(
                 parent=request.root.getIdResolver()
             )

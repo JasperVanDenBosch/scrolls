@@ -22,4 +22,3 @@ class IdResolverTests(DITestCase):
         self.messages.getById.return_value = sentinel.message
         resolver = IdResolver(None, self.dependencies)
         self.assertEqual(resolver['theid'], sentinel.message)
-

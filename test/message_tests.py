@@ -32,7 +32,6 @@ class MessageTests(DITestCase):
         message.getDatetime.return_value = dt
         self.assertEqual(message.getId(), '20170111144437992abcdef')
 
-
     def test_toTuple(self):
         from scrolls.models.message import Message
         message = Message('client', 'data', 'xyz')

@@ -57,7 +57,7 @@ class DependenciesTests(TestCase):
         from scrolls.dependencies import Dependencies
         with patch('scrolls.dependencies.MessageFactory') as MessageFactory:
             dependencies = Dependencies().withRequest(sentinel.request)
-            dependency = dependencies.getMessageFactory()
+            dependencies.getMessageFactory()
         MessageFactory.assert_called_with(dependencies, sentinel.request)
 
     def test_getMessageImporter(self):
