@@ -6,7 +6,10 @@ Submodules
 
 .. toctree::
 
+   scrolls.models.counter
+   scrolls.models.filter
    scrolls.models.message
+   scrolls.models.root
 
 Module contents
 ---------------

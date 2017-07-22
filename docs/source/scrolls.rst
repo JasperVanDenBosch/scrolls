@@ -21,6 +21,8 @@ Submodules
    scrolls.dependencies
    scrolls.entrypoint
    scrolls.filesystem
+   scrolls.idresolver
+   scrolls.importer
    scrolls.listener
    scrolls.log
    scrolls.rsyslog

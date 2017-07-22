@@ -7,6 +7,7 @@ Submodules
 .. toctree::
 
    scrolls.repositories.message
+   scrolls.repositories.statistic
 
 Module contents
 ---------------
