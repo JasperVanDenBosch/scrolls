@@ -27,3 +27,10 @@ class SecurityTests(DITestCase):
         self.assertLess(nUpper, len(secret))
         self.assertGreater(nDigits, 0)
         self.assertLess(nDigits, len(secret))
+
+    def test_generateShortUuid(self):
+        from scrolls.security import Security
+        security = Security(self.dependencies)
+        self.assertEqual(len(security.generateShortUuid()), 6)
+        self.assertNotEqual(security.generateShortUuid(),
+                            security.generateShortUuid())

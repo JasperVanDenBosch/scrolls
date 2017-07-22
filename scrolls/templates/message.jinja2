@@ -1,0 +1,36 @@
+{% extends "master.jinja2" %}
+{% block body %}
+
+
+
+<div class="centerstage">
+<dl>
+    <dt>Occurred:</dt>
+    <dd>{{ message.toDict()['datetime'].strftime('%c') }}
+        (<span class="datetime">{{ message.toDict()['datetime'] }}</span>)</dd>
+    <dt>On client:</dt>
+    <dd>{{ message.toDict()['hostname'] }}</dd>
+    <dt>Application:</dt>
+    <dd>{{ message.toDict()['app'] }}</dd>
+    <dt>Full content:</dt>
+    <dd class="content">{{ message.toDict()['content'] }}</dd>
+</dl>
+
+
+</div>
+
+
+<nav id="sidebar">
+
+    <form action="{{ request.resource_url(request.root, 'logout') }}" method="POST">
+        <input type="submit" value="logout">
+    </form>
+    <nav>
+        <a href="{{ request.resource_url(request.root) }}">home</a>
+    </nav>
+
+</nav>
+
+</div>
+
+{% endblock %}

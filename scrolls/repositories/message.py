@@ -29,3 +29,10 @@ class MessageRepository(object):
             if len(selectedMessages) >= n:
                 break
         return list(reversed(selectedMessages))
+
+    def getById(self, mid):
+        all = self.filesys.readJson(self.path) or []
+        for record in reversed(all):
+            message = self.message.fromTuple(record)
+            if message.getId() == mid:
+                return message

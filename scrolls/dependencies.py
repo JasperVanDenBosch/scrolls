@@ -16,8 +16,9 @@ class Dependencies(object):
     """
     Dependency Injection service.
     """
-    def __init__(self):
+    def __init__(self, request=None):
         self.config = None
+        self.request = request
 
     def getClock(self):
         return Clock()
@@ -42,7 +43,7 @@ class Dependencies(object):
         return Log(self)
 
     def getMessageFactory(self):
-        return MessageFactory(self)
+        return MessageFactory(self, self.request)
 
     def getMessageImporter(self):
         return MessageImporter(self)
@@ -61,3 +62,6 @@ class Dependencies(object):
 
     def getStatisticRepository(self):
         return StatisticRepository(self)
+
+    def withRequest(self, request):
+        return Dependencies(request)

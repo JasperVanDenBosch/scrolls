@@ -27,3 +27,8 @@ class HomeView(ProtectedView):
         if self.request.context.resolvable is False:
             raise HTTPNotFound()
         return self.get_root()
+
+    @view_config(context='scrolls.models.message.Message',
+                 renderer='message.jinja2')
+    def get_message(self):
+        return {'message': self.request.context}

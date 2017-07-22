@@ -1,4 +1,5 @@
 from unittest import TestCase
+from mock import Mock, patch, sentinel
 
 
 class DependenciesTests(TestCase):
@@ -52,6 +53,13 @@ class DependenciesTests(TestCase):
         dependency = dependencies.getMessageFactory()
         self.assertIsInstance(dependency, MessageFactory)
 
+    def test_getMessageFactory_passes_request(self):
+        from scrolls.dependencies import Dependencies
+        with patch('scrolls.dependencies.MessageFactory') as MessageFactory:
+            dependencies = Dependencies().withRequest(sentinel.request)
+            dependencies.getMessageFactory()
+        MessageFactory.assert_called_with(dependencies, sentinel.request)
+
     def test_getMessageImporter(self):
         from scrolls.dependencies import Dependencies
         from scrolls.importer import MessageImporter
@@ -93,3 +101,10 @@ class DependenciesTests(TestCase):
         dependencies = Dependencies()
         dependency = dependencies.getStatisticRepository()
         self.assertIsInstance(dependency, StatisticRepository)
+
+    def test_withRequest(self):
+        from scrolls.dependencies import Dependencies
+        deps1 = Dependencies()
+        request = Mock()
+        deps2 = deps1.withRequest(request)
+        self.assertNotEqual(deps1, deps2)

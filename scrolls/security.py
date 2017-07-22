@@ -28,3 +28,8 @@ class Security(object):
             secrets['password_secret'] = pwSecret
             secrets['hashed_password'] = self.hashPassword(password, pwSecret)
         return secrets
+
+    def generateShortUuid(self):
+        chars = string.ascii_lowercase
+        charlist = [random.SystemRandom().choice(chars) for _ in range(6)]
+        return ''.join(charlist)

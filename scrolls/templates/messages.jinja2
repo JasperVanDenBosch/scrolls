@@ -1,25 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="/static/home.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-</head>
-<body>
-
+{% extends "master.jinja2" %}
+{% block body %}
 
 
 <div id="container">
-
 
 <div id="messages">
     <ul>
     {% for message in messages %}
         <li>
-    {% for attribute in ('datetime', 'hostname', 'app', 'content') %}
-            <span class="{{ attribute }}">{{ message.toDict()[attribute] }}</span>
-    {% endfor %}
+            {% for attribute in ('datetime', 'hostname', 'app') %}
+                <span class="{{ attribute }}">{{ message.toDict()[attribute] }}</span>
+            {% endfor %}
+            <a href="{{ request.resource_url(message) }}">
+                <span class="content">{{ message.toDict()['content'] }}</span>
+            </a>
         </li>
     {% endfor %}
     </ul>
@@ -45,14 +39,6 @@
     </ol>
 </nav>
 
-
 </div>
 
-<script>
-    $(".datetime").html(function(index, value) {
-        return moment(value, "YYYY-MM-DD HH:mm:ss.SSSSSSZ").fromNow();
-    });
-</script>
-
-</body>
-</html>
+{% endblock %}
