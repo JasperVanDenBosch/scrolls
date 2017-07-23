@@ -1,7 +1,15 @@
 from test.ditestcase import DITestCase
 from datetime import datetime
-from mock import Mock, sentinel
+from mock import Mock, sentinel, patch
 from dateutil.tz import tzoffset
+
+UA = ('Mozilla/5.0 (X11; Linux x86_64)'+
+    ' AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115'+
+    ' Safari/537.36')
+NGMSG = ('<38>1 2017-07-18T00:36:21.238521+00:00 www nginx-access 11943 ' +
+        '- - 127.0.0.1 - - [22/Jul/2017:16:44:46 +0100] "GET /bla'+
+        ' HTTP/1.1" 404 209 "-" "'+ UA + '"\n')
+
 
 
 class MessageTests(DITestCase):
@@ -76,6 +84,18 @@ class MessageTests(DITestCase):
             'app': 'sshd',
             'content': 'Received disconnect from 59.45.175.67',
         })
+
+    def test_nginx(self):
+        from scrolls.models.message import Message
+        message = Message('client', NGMSG, 'xyz')
+        mdict = message.toDict()
+        self.assertEqual(mdict['app'], 'nginx-access')
+        self.assertEqual(mdict['content'], '/bla')
+        self.assertEqual(mdict['httpcode'], 404)
+        self.assertEqual(mdict['httpmethod'], 'GET')
+        self.assertEqual(mdict['path'], '/bla')
+        self.assertEqual(mdict['browser-family'], 'Chrome')
+        self.assertEqual(mdict['ip'], '127.0.0.1')
 
     def test_resourcify(self):
         from scrolls.models.message import Message
