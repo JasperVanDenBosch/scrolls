@@ -11,17 +11,14 @@ class MessageFactory(object):
         self.security = dependencies.getSecurity()
         self.request = request
 
-    def fromTuple(self, mtuple):
-        """Create a Message from a 2-tuple or a 3-tuple
+    def parseFrom(self, rsyslogString, withId=None):
+        """Create a Message by parsing the rsyslog data string
 
-        If a 3-tuple is passed, the first element, presumed to be
-        the timestamp, is discarded.
+        If no pre-made id is passed as `withId`, a new one is generated.
         """
-        if len(mtuple) > 2:
-            mtuple = mtuple[1:]
-        else:
-            mtuple += (self.security.generateShortUuid(),)
-        newMessage = Message(*mtuple)
+        if withId is None:
+            withId = self.security.generateShortUuid()
+        newMessage = Message({'id': withId})
         if self.request:
             newMessage.resourcify(parent=self.request.root.getIdResolver())
         return newMessage
