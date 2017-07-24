@@ -116,6 +116,13 @@ class DependenciesTests(TestCase):
         dependency = dependencies.getStatisticRepository()
         self.assertIsInstance(dependency, StatisticRepository)
 
+    def test_getUseragentParser(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.parsers.useragent import UseragentParser
+        dependencies = Dependencies()
+        dependency = dependencies.getUseragentParser()
+        self.assertIsInstance(dependency, UseragentParser)
+
     def test_withRequest(self):
         from scrolls.dependencies import Dependencies
         deps1 = Dependencies()

@@ -9,6 +9,7 @@ from scrolls.repositories.message import MessageRepository
 from scrolls.rsyslog import RSyslog
 from scrolls.parsers.rsyslog import RSyslogParser
 from scrolls.parsers.nginx import NginxParser
+from scrolls.parsers.useragent import UseragentParser
 from scrolls.security import Security
 from scrolls.server import Server
 from scrolls.repositories.statistic import StatisticRepository
@@ -70,6 +71,9 @@ class Dependencies(object):
 
     def getStatisticRepository(self):
         return StatisticRepository(self)
+
+    def getUseragentParser(self):
+        return UseragentParser(self)
 
     def withRequest(self, request):
         return Dependencies(request)

@@ -22,8 +22,10 @@ class DITestCase(TestCase):
         self.count = Mock()
         self.rsyslogParser = Mock()
         self.nginxParser = Mock()
+        self.useragentParser = Mock()
         deps.getRSyslogParser.return_value = self.rsyslogParser
         deps.getNginxParser.return_value = self.nginxParser
+        deps.getUseragentParser.return_value = self.useragentParser
         deps.getMessageRepository.return_value = self.messages
         deps.getClock.return_value = self.clock
         deps.getConfiguration.return_value = self.config

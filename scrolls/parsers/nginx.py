@@ -3,7 +3,7 @@
 class NginxParser(object):
 
     def __init__(self, dependencies):
-        pass
+        self.userAgent = dependencies.getUseragentParser()
 
     def parse(self, string):
         strparts = string.split('"')
@@ -16,4 +16,5 @@ class NginxParser(object):
             'path': reqparts[1],
             'content': reqparts[1],
         }
+        mdict.update(self.userAgent.parse(uapart))
         return mdict
