@@ -25,16 +25,16 @@ class ListenerTests(DITestCase):
 
     def test_flushes_after_50ms_passed(self):
         from scrolls.listener import Listener
-        self.message.fromTuple.side_effect = lambda t: ('M', t[0], t[1])
+        self.message.parseFrom.side_effect = lambda t: ('M', t)
         self.server.secondsToAdvanceClockPerRequest = .01
         self.server.raiseKeyboardInterruptOnRequestNo = 9
         listener = Listener(self.ServerClass, self.dependencies)
         listener.listen()
         self.assertEqual(self.importer.import_.call_count, 1)
         self.importer.import_.assert_called_with([
-            ('M', 'msg1client', 'msg1'),
-            ('M', 'msg2client', 'msg2'),
-            ('M', 'msg3client', 'msg3'),
-            ('M', 'msg4client', 'msg4'),
-            ('M', 'msg5client', 'msg5'),
+            ('M', 'msg1'),
+            ('M', 'msg2'),
+            ('M', 'msg3'),
+            ('M', 'msg4'),
+            ('M', 'msg5'),
         ])
