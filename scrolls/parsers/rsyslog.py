@@ -1,3 +1,4 @@
+import dateutil.parser
 
 
 class RSyslogParser(object):
@@ -6,4 +7,12 @@ class RSyslogParser(object):
         pass
 
     def parse(self, string):
-        pass
+        parts = string.split()
+        content = ' '.join(parts[7:]).strip()
+        dt = dateutil.parser.parse(parts[1])
+        return {
+            'datetime': dt,
+            'hostname': parts[2],
+            'app': parts[3],
+            'content': content
+        }
