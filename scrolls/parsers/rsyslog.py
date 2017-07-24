@@ -11,6 +11,7 @@ class RSyslogParser(object):
         content = ' '.join(parts[7:]).strip()
         dt = dateutil.parser.parse(parts[1])
         return {
+            'data': string,
             'datetime': dt,
             'hostname': parts[2],
             'app': parts[3],

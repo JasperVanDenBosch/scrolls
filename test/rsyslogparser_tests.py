@@ -5,6 +5,14 @@ from dateutil.tz import tzoffset
 
 class RSyslogParserTests(DITestCase):
 
+    def test_data_string(self):
+        from scrolls.parsers.rsyslog import RSyslogParser
+        data = '<54>1 17-01-11T14:44:37.9+01:00 - - - - -  hallo\n'
+        mdict = RSyslogParser(self.dependencies).parse(data)
+        self.assertIn('data', mdict)
+        self.assertEqual(mdict['data'],
+                         '<54>1 17-01-11T14:44:37.9+01:00 - - - - -  hallo\n')
+
     def test_dt_syslog(self):
         from scrolls.parsers.rsyslog import RSyslogParser
         data = '<54>1 2017-01-11T14:44:37.992647+01:00 - - - - -  hallo\n'
