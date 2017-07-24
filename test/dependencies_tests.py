@@ -74,6 +74,13 @@ class DependenciesTests(TestCase):
         dependency = dependencies.getMessageRepository()
         self.assertIsInstance(dependency, MessageRepository)
 
+    def test_getNginxParser(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.parsers.nginx import NginxParser
+        dependencies = Dependencies()
+        dependency = dependencies.getNginxParser()
+        self.assertIsInstance(dependency, NginxParser)
+
     def test_getRSyslog(self):
         from scrolls.dependencies import Dependencies
         from scrolls.rsyslog import RSyslog

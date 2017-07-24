@@ -8,6 +8,7 @@ from scrolls.importer import MessageImporter
 from scrolls.repositories.message import MessageRepository
 from scrolls.rsyslog import RSyslog
 from scrolls.parsers.rsyslog import RSyslogParser
+from scrolls.parsers.nginx import NginxParser
 from scrolls.security import Security
 from scrolls.server import Server
 from scrolls.repositories.statistic import StatisticRepository
@@ -51,6 +52,9 @@ class Dependencies(object):
 
     def getMessageRepository(self):
         return MessageRepository(self)
+
+    def getNginxParser(self):
+        return NginxParser(self)
 
     def getRSyslog(self):
         return RSyslog(self)

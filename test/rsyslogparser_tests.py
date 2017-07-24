@@ -46,3 +46,13 @@ class RSyslogParserTests(DITestCase):
         self.assertIn('content', mdict)
         self.assertEqual(mdict['content'],
                          'Received disconnect from 59.45.175.67')
+
+    def test_if_nginx_sends_content_through_nginx_parser(self):
+        from scrolls.parsers.rsyslog import RSyslogParser
+        self.nginxParser.parse.return_value = {'foo': 'bar'}
+        data = ('<38>1 2017-07-18T00:36:21.238521+00:00 www nginx 11943 ' +
+                '- - I am the nginx message\n')
+        mdict = RSyslogParser(self.dependencies).parse(data)
+        self.nginxParser.parse.assert_called_with('I am the nginx message')
+        self.assertIn('foo', mdict)
+        self.assertEqual(mdict['foo'], 'bar')
