@@ -9,19 +9,19 @@ class MessageFactory(object):
 
     def __init__(self, dependencies, request=None):
         self.security = dependencies.getSecurity()
+        self.parser = dependencies.getRSyslogParser()
         self.request = request
 
-    def fromTuple(self, mtuple):
-        """Create a Message from a 2-tuple or a 3-tuple
+    def parseFrom(self, rsyslogString, withId=None):
+        """Create a Message by parsing the rsyslog data string
 
-        If a 3-tuple is passed, the first element, presumed to be
-        the timestamp, is discarded.
+        If no pre-made id is passed as `withId`, a new one is generated.
         """
-        if len(mtuple) > 2:
-            mtuple = mtuple[1:]
-        else:
-            mtuple += (self.security.generateShortUuid(),)
-        newMessage = Message(*mtuple)
+        if withId is None:
+            withId = self.security.generateShortUuid()
+        mdict = self.parser.parse(rsyslogString)
+        mdict.update({'id': withId})
+        newMessage = Message(mdict)
         if self.request:
             newMessage.resourcify(parent=self.request.root.getIdResolver())
         return newMessage

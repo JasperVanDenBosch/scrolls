@@ -9,8 +9,14 @@ class MessageRepository(object):
         self.message = dependencies.getMessageFactory()
         self.path = 'scrolls.json'
 
+    def serialize(self, message):
+        ts = message.getDatetime().timestamp()
+        data = message.getData()
+        mid = message.getId()
+        return (ts, data, mid)
+
     def add(self, newMessages):
-        newRecords = [m.toTuple() for m in newMessages]
+        newRecords = [self.serialize(m) for m in newMessages]
         sortedNewRecords = sorted(newRecords, key=itemgetter(0))
         all = self.filesys.readJson(self.path) or []
         d = collections.deque(all, 5000)
@@ -23,7 +29,8 @@ class MessageRepository(object):
         all = self.filesys.readJson(self.path) or []
         selectedMessages = []
         for record in reversed(all):
-            message = self.message.fromTuple(record)
+            data, mid = record[1:]
+            message = self.message.parseFrom(data, withId=mid)
             if filter.accepts(message):
                 selectedMessages.append(message)
             if len(selectedMessages) >= n:
@@ -33,6 +40,7 @@ class MessageRepository(object):
     def getById(self, mid):
         all = self.filesys.readJson(self.path) or []
         for record in reversed(all):
-            message = self.message.fromTuple(record)
+            data, mid = record[1:]
+            message = self.message.parseFrom(data, withId=mid)
             if message.getId() == mid:
                 return message

@@ -74,12 +74,26 @@ class DependenciesTests(TestCase):
         dependency = dependencies.getMessageRepository()
         self.assertIsInstance(dependency, MessageRepository)
 
+    def test_getNginxParser(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.parsers.nginx import NginxParser
+        dependencies = Dependencies()
+        dependency = dependencies.getNginxParser()
+        self.assertIsInstance(dependency, NginxParser)
+
     def test_getRSyslog(self):
         from scrolls.dependencies import Dependencies
         from scrolls.rsyslog import RSyslog
         dependencies = Dependencies()
         dependency = dependencies.getRSyslog()
         self.assertIsInstance(dependency, RSyslog)
+
+    def test_getRSyslogParser(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.parsers.rsyslog import RSyslogParser
+        dependencies = Dependencies()
+        dependency = dependencies.getRSyslogParser()
+        self.assertIsInstance(dependency, RSyslogParser)
 
     def test_getSecurity(self):
         from scrolls.dependencies import Dependencies
@@ -101,6 +115,13 @@ class DependenciesTests(TestCase):
         dependencies = Dependencies()
         dependency = dependencies.getStatisticRepository()
         self.assertIsInstance(dependency, StatisticRepository)
+
+    def test_getUseragentParser(self):
+        from scrolls.dependencies import Dependencies
+        from scrolls.parsers.useragent import UseragentParser
+        dependencies = Dependencies()
+        dependency = dependencies.getUseragentParser()
+        self.assertIsInstance(dependency, UseragentParser)
 
     def test_withRequest(self):
         from scrolls.dependencies import Dependencies
