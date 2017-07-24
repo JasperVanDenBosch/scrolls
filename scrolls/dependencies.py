@@ -7,6 +7,7 @@ from scrolls.log import Log
 from scrolls.importer import MessageImporter
 from scrolls.repositories.message import MessageRepository
 from scrolls.rsyslog import RSyslog
+from scrolls.parsers.rsyslog import RSyslogParser
 from scrolls.security import Security
 from scrolls.server import Server
 from scrolls.repositories.statistic import StatisticRepository
@@ -53,6 +54,9 @@ class Dependencies(object):
 
     def getRSyslog(self):
         return RSyslog(self)
+
+    def getRSyslogParser(self):
+        return RSyslogParser(self)
 
     def getSecurity(self):
         return Security(self)

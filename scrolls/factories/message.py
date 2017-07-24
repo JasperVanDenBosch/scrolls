@@ -9,6 +9,7 @@ class MessageFactory(object):
 
     def __init__(self, dependencies, request=None):
         self.security = dependencies.getSecurity()
+        self.parser = dependencies.getRSyslogParser()
         self.request = request
 
     def parseFrom(self, rsyslogString, withId=None):
@@ -18,7 +19,9 @@ class MessageFactory(object):
         """
         if withId is None:
             withId = self.security.generateShortUuid()
-        newMessage = Message({'id': withId})
+        mdict = self.parser.parse(rsyslogString)
+        mdict.update({'id': withId})
+        newMessage = Message(mdict)
         if self.request:
             newMessage.resourcify(parent=self.request.root.getIdResolver())
         return newMessage
