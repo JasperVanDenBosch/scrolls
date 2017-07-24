@@ -41,4 +41,5 @@ Features
 
 - Browse events by application or host
 - Limit access to the web app by password
+- Pure-python; no need to install additional system packages
 
