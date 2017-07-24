@@ -1,105 +1,36 @@
 from test.ditestcase import DITestCase
-from datetime import datetime
-from mock import Mock, sentinel, patch
-from dateutil.tz import tzoffset
-
-UA = ('Mozilla/5.0 (X11; Linux x86_64)'+
-    ' AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115'+
-    ' Safari/537.36')
-NGMSG = ('<38>1 2017-07-18T00:36:21.238521+00:00 www nginx-access 11943 ' +
-        '- - 127.0.0.1 - - [22/Jul/2017:16:44:46 +0100] "GET /bla'+
-        ' HTTP/1.1" 404 209 "-" "'+ UA + '"\n')
-
+from mock import Mock, sentinel
 
 
 class MessageTests(DITestCase):
 
-    def test_dt_syslog(self):
-        from scrolls.models.message import Message
-        data = '<54>1 2017-01-11T14:44:37.992647+01:00 - - - - -  hallo\n'
-        dt = datetime(2017, 1, 11, 14, 44, 37, 992647,
-                      tzinfo=tzoffset(None, 3600))
-        message = Message('client', data, 'xyz')
-        self.assertEqual(message.getDatetime(), dt)
-
-    def test_timestamp(self):
-        from scrolls.models.message import Message
-        dt = datetime(2017, 1, 11, 14, 44, 37, 992647,
-                      tzinfo=tzoffset(None, 3600))
-        message = Message('client', 'data', 'xyz')
-        message.getDatetime = Mock()
-        message.getDatetime.return_value = dt
-        self.assertEqual(message.getTimestamp(), dt.timestamp())
-
     def test_id(self):
         from scrolls.models.message import Message
-        dt = datetime(2017, 1, 11, 14, 44, 37, 992647,
-                      tzinfo=tzoffset(None, 3600))
-        message = Message('client', 'data', 'abcdef')
-        message.getDatetime = Mock()
-        message.getDatetime.return_value = dt
-        self.assertEqual(message.getId(), '20170111144437992abcdef')
+        mdict = {'id': '123abc'}
+        message = Message(mdict)
+        self.assertEqual(message.getId(), '123abc')
 
-    def test_toTuple(self):
+    def test_data(self):
         from scrolls.models.message import Message
-        message = Message('client', 'data', 'xyz')
-        message.getTimestamp = Mock()
-        message.getTimestamp.return_value = 123.456
-        self.assertEqual(message.toTuple(), (
-            123.456, 'client', 'data', 'xyz'
-        ))
+        mdict = {'data': sentinel.data}
+        message = Message(mdict)
+        self.assertEqual(message.getData(), sentinel.data)
 
-    def test_hostname(self):
+    def test_datetime(self):
         from scrolls.models.message import Message
-        data = ('<38>1 2017-07-18T00:36:21.238521+00:00 www sshd 11943 ' +
-                '- - Received disconnect from 59.45.175.67\n')
-        message = Message('client', data, 'xyz')
-        self.assertEqual(message.getHostname(), 'www')
-
-    def test_app(self):
-        from scrolls.models.message import Message
-        data = ('<38>1 2017-07-18T00:36:21.238521+00:00 www sshd 11943 ' +
-                '- - Received disconnect from 59.45.175.67\n')
-        message = Message('client', data, 'xyz')
-        self.assertEqual(message.getApp(), 'sshd')
-
-    def test_content(self):
-        from scrolls.models.message import Message
-        data = ('<38>1 2017-07-18T00:36:21.238521+00:00 www sshd 11943 ' +
-                '- - Received disconnect from 59.45.175.67\n')
-        message = Message('client', data, 'xyz')
-        self.assertEqual(message.getContent(),
-                         'Received disconnect from 59.45.175.67')
+        mdict = {'datetime': sentinel.datetime}
+        message = Message(mdict)
+        self.assertEqual(message.getDatetime(), sentinel.datetime)
 
     def test_toDict(self):
         from scrolls.models.message import Message
-        data = ('<38>1 2017-07-18T00:36:21.238521+00:00 www sshd 11943 ' +
-                '- - Received disconnect from 59.45.175.67\n')
-        dt = datetime(2017, 7, 18, 00, 36, 21, 238521,
-                      tzinfo=tzoffset(None, 0))
-        message = Message('client', data, 'xyz')
-        self.assertEqual(message.toDict(), {
-            'datetime': dt,
-            'hostname': 'www',
-            'app': 'sshd',
-            'content': 'Received disconnect from 59.45.175.67',
-        })
-
-    def test_nginx(self):
-        from scrolls.models.message import Message
-        message = Message('client', NGMSG, 'xyz')
-        mdict = message.toDict()
-        self.assertEqual(mdict['app'], 'nginx-access')
-        self.assertEqual(mdict['content'], '/bla')
-        self.assertEqual(mdict['httpcode'], 404)
-        self.assertEqual(mdict['httpmethod'], 'GET')
-        self.assertEqual(mdict['path'], '/bla')
-        self.assertEqual(mdict['browser-family'], 'Chrome')
-        self.assertEqual(mdict['ip'], '127.0.0.1')
+        mdict = {'id': '123abc'}
+        message = Message(mdict)
+        self.assertEqual(message.toDict(), mdict)
 
     def test_resourcify(self):
         from scrolls.models.message import Message
-        message = Message('client', 'data', 'xyz')
+        message = Message({})
         message.getId = Mock()
         message.resourcify(parent=sentinel.parent)
         self.assertEqual(message.__parent__, sentinel.parent)
