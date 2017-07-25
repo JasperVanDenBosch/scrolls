@@ -71,3 +71,16 @@ nav > a {
     font-size: large;
 }
 
+form.scrolls-warning fieldset {
+padding: 1em;
+border: 1px solid Gray;
+background-color: WhiteSmoke;
+display: inline-block;
+}
+form.scrolls-warning input {
+padding: 0.5em;
+}
+form.scrolls-warning span {
+margin: 1em;
+}
+

@@ -1,11 +1,12 @@
+from scrolls.parsers.baseparser import BaseParser
 
 
-class NginxParser(object):
+class NginxParser(BaseParser):
 
     def __init__(self, dependencies):
         self.userAgent = dependencies.getUseragentParser()
 
-    def parse(self, string):
+    def _parse(self, string):
         strparts = string.split('"')
         part1, reqpart, statuspart, _, _, uapart, _ = strparts
         reqparts = reqpart.split()

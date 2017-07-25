@@ -45,6 +45,30 @@ class MessageFactoryTests(DITestCase):
             self.assertIn('abc', mdict)
             self.assertEqual(mdict['abc'], 123)
 
+    def test_if_parser_errors_sets_basics(self):
+        from scrolls.factories.message import MessageFactory
+        parseExceptionDict = {'scrolls.parse-exception': 'x'}
+        self.rsyslogParser.parse.return_value = parseExceptionDict
+        with patch('scrolls.factories.message.Message') as Message:
+            factory = MessageFactory(self.dependencies)
+            factory.parseFrom('rsyslog data string')
+            mdict = Message.call_args[0][0]
+            self.assertIn('datetime', mdict)
+            self.assertEqual(mdict['datetime'], self.clock.now())
+            self.assertIn('content', mdict)
+            self.assertEqual(mdict['content'],
+                             'Scrolls failed to parse this message.')
+
+    def test_always_set_data_field(self):
+        from scrolls.factories.message import MessageFactory
+        self.rsyslogParser.parse.return_value = {}
+        with patch('scrolls.factories.message.Message') as Message:
+            factory = MessageFactory(self.dependencies)
+            factory.parseFrom('rsyslog data string')
+            mdict = Message.call_args[0][0]
+            self.assertIn('data', mdict)
+            self.assertEqual(mdict['data'], 'rsyslog data string')
+
     def test_resourcifies_if_has_request(self):
         from scrolls.factories.message import MessageFactory
         request = Mock()

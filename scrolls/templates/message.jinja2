@@ -9,12 +9,25 @@
     <dd>{{ message.toDict()['datetime'].strftime('%c') }}
         (<span class="datetime">{{ message.toDict()['datetime'] }}</span>)</dd>
     <dt>On client:</dt>
-    <dd>{{ message.toDict()['hostname'] }}</dd>
+    <dd>{{ message.toDict().get('hostname') }}</dd>
     <dt>Application:</dt>
-    <dd>{{ message.toDict()['app'] }}</dd>
+    <dd>{{ message.toDict().get('app') }}</dd>
     <dt>Full content:</dt>
-    <dd class="content">{{ message.toDict()['content'] }}</dd>
+    <dd class="content">{{ message.toDict().get('content') }}</dd>
 </dl>
+
+{% if message.toDict().get('scrolls.parse-exception') %}
+<form class="scrolls-warning" action="https://github.com/ilogue/scrolls/issues/new">
+<fieldset>
+    <span>There was an error parsing this message.</span>
+    <input type="hidden" name="title" value="Failed to parse message"/>
+    <input type="hidden" name="body" value="
+        {{ '>' + message.toDict().get('scrolls.parse-exception','')[:1000] + '\n\n' }}
+        `{{ message.toDict().get('data','')[:1000] }}`"/>
+    <input type="submit" value="Report Issue"/>
+</fieldset>
+<form>
+{% endif %}
 
 
 </div>

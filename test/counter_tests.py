@@ -44,6 +44,16 @@ class CounterFactoryTests(DITestCase):
             ('blub', 'Wed 05 Jul'): 1,
         })
 
+    def test_If_attr_value_not_available_dont_count(self):
+        from scrolls.models.counter import Counter
+        count = Counter('blub')
+        self.assertEqual(count.counts, {})
+        count.add(self.messageToDict({'a': '2'}))
+        count.add(self.messageToDict({'blub': '1'}))
+        self.assertEqual(count.counts, {
+            ('blub', '1'): 1,
+        })
+
     def messageToDict(self, d):
         message = Mock()
         message.toDict.return_value = d

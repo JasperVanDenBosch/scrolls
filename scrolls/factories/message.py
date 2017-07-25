@@ -1,4 +1,5 @@
 from scrolls.models.message import Message
+PARSE_FAILURE = 'Scrolls failed to parse this message.'
 
 
 class MessageFactory(object):
@@ -10,6 +11,7 @@ class MessageFactory(object):
     def __init__(self, dependencies, request=None):
         self.security = dependencies.getSecurity()
         self.parser = dependencies.getRSyslogParser()
+        self.clock = dependencies.getClock()
         self.request = request
 
     def parseFrom(self, rsyslogString, withId=None):
@@ -18,9 +20,11 @@ class MessageFactory(object):
         If no pre-made id is passed as `withId`, a new one is generated.
         """
         mdict = self.parser.parse(rsyslogString)
+        mdict['datetime'] = mdict.get('datetime') or self.clock.now()
+        mdict['content'] = mdict.get('content') or PARSE_FAILURE
         if withId is None:
             withId = self.createId(mdict)
-        mdict.update({'id': withId})
+        mdict.update({'id': withId, 'data': rsyslogString})
         newMessage = Message(mdict)
         if self.request:
             newMessage.resourcify(parent=self.request.root.getIdResolver())
