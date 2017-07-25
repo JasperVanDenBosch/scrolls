@@ -37,10 +37,10 @@ class MessageRepository(object):
                 break
         return list(reversed(selectedMessages))
 
-    def getById(self, mid):
+    def getById(self, targetid):
         all = self.filesys.readJson(self.path) or []
         for record in reversed(all):
             data, mid = record[1:]
             message = self.message.parseFrom(data, withId=mid)
-            if message.getId() == mid:
+            if message.getId() == targetid:
                 return message
