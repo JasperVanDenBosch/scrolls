@@ -59,6 +59,21 @@ class MessageRepositoryTests(DITestCase):
             ('M', '8', 'i8')
         ])
 
+    def test_getById(self):
+        from scrolls.repositories.message import MessageRepository
+
+        def createMessage(t, withId):
+            msg = Mock()
+            msg.getId.return_value = withId
+            return msg
+
+        self.message.parseFrom.side_effect = createMessage
+        messages = MessageRepository(self.dependencies)
+        self.filesys.readJson.return_value = [
+            (n, str(n), 'i'+str(n)) for n in range(10)
+        ]
+        self.assertEqual(messages.getById('i6').getId(), 'i6')
+
     def messageWithTimestamp(self, ts):
         msg = Mock()
         msg.getDatetime().timestamp.return_value = ts
