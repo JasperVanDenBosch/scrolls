@@ -9,7 +9,8 @@ class MessageImporter(object):
         self.count = dependencies.getCounterFactory()
         self.counters = [
             self.count.byHostname(),
-            self.count.byApp()
+            self.count.byApp(),
+            self.count.byHour()
         ]
 
     def import_(self, messages):

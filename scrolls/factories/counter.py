@@ -12,3 +12,6 @@ class CounterFactory(object):
 
     def byApp(self):
         return Counter('app')
+
+    def byHour(self):
+        return Counter('hour', '%Y%m%d%H')

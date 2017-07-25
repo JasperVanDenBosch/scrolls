@@ -1,5 +1,6 @@
 from test.ditestcase import DITestCase
 from mock import Mock
+from datetime import datetime
 
 
 class CounterFactoryTests(DITestCase):
@@ -30,6 +31,18 @@ class CounterFactoryTests(DITestCase):
         })
         count.reset()
         self.assertEqual(count.counts, {})
+
+    def test_Count_by_time_bin(self):
+        from scrolls.models.counter import Counter
+        count = Counter('blub', '%a %d %b')
+        self.assertEqual(count.counts, {})
+        count.add(self.messageToDict({'datetime': datetime(2017, 7, 4, 11)}))
+        count.add(self.messageToDict({'datetime': datetime(2017, 7, 5, 12)}))
+        count.add(self.messageToDict({'datetime': datetime(2017, 7, 4, 13)}))
+        self.assertEqual(count.counts, {
+            ('blub', 'Tue 04 Jul'): 2,
+            ('blub', 'Wed 05 Jul'): 1,
+        })
 
     def messageToDict(self, d):
         message = Mock()
