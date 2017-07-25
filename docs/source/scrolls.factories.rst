@@ -6,8 +6,8 @@ Submodules
 
 .. toctree::
 
-   scrolls.factories.message
    scrolls.factories.counter
+   scrolls.factories.message
 
 Module contents
 ---------------

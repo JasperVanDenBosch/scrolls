@@ -14,3 +14,11 @@ class CounterFactoryTests(DITestCase):
             counter = count.byHostname()
             Counter.assert_called_with('hostname')
             self.assertEqual(counter, Counter())
+
+    def test_byHour(self):
+        from scrolls.factories.counter import CounterFactory
+        count = CounterFactory(self.dependencies)
+        with patch('scrolls.factories.counter.Counter') as Counter:
+            counter = count.byHour()
+            Counter.assert_called_with('hour', '%Y%m%d%H')
+            self.assertEqual(counter, Counter())

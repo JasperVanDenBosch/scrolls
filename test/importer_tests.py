@@ -40,3 +40,8 @@ class ImporterTests(DITestCase):
         from scrolls.importer import MessageImporter
         importer = MessageImporter(self.dependencies)
         self.assertIn(self.count.byHostname(), importer.counters)
+
+    def test_has_counter_byHour(self):
+        from scrolls.importer import MessageImporter
+        importer = MessageImporter(self.dependencies)
+        self.assertIn(self.count.byHour(), importer.counters)
