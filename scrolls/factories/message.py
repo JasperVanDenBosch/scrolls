@@ -17,11 +17,20 @@ class MessageFactory(object):
 
         If no pre-made id is passed as `withId`, a new one is generated.
         """
-        if withId is None:
-            withId = self.security.generateShortUuid()
         mdict = self.parser.parse(rsyslogString)
+        if withId is None:
+            withId = self.createId(mdict)
         mdict.update({'id': withId})
         newMessage = Message(mdict)
         if self.request:
             newMessage.resourcify(parent=self.request.root.getIdResolver())
         return newMessage
+
+    def createId(self, mdict):
+        """Create an ID for the message based on dictionary mdict.
+
+        The id is a combination of the timestamp and a 6 character unique id.
+        """
+        suid = self.security.generateShortUuid()
+        dtstr = mdict['datetime'].strftime('%Y%m%d%H%M%S%f')[:-3]
+        return dtstr + suid
