@@ -1,25 +1,30 @@
 from test.ditestcase import DITestCase
 from mock import patch, Mock
+import datetime
 
 
 class MessageFactoryTests(DITestCase):
 
     def setUp(self):
         super(MessageFactoryTests, self).setUp()
-        self.rsyslogParser.parse.return_value = {}
+        dt = datetime.datetime.now()
+        self.rsyslogParser.parse.return_value = {'datetime': dt}
+        self.security.generateShortUuid.return_value = 'xyz'
 
     def test_without_id_generates_it(self):
         from scrolls.factories.message import MessageFactory
         ids = ['def', 'abc']
         self.security.generateShortUuid.side_effect = lambda: ids.pop()
+        dt = datetime.datetime(2017, 1, 11, 14, 44, 37, 992647)
+        self.rsyslogParser.parse.return_value = {'datetime': dt}
         with patch('scrolls.factories.message.Message') as Message:
             factory = MessageFactory(self.dependencies)
             factory.parseFrom('data')
             mdict = Message.call_args[0][0]
-            self.assertEqual(mdict['id'], 'abc')
+            self.assertEqual(mdict['id'], '20170111144437992abc')
             factory.parseFrom('data')
             mdict = Message.call_args[0][0]
-            self.assertEqual(mdict['id'], 'def')
+            self.assertEqual(mdict['id'], '20170111144437992def')
 
     def test_with_id_uses_it(self):
         from scrolls.factories.message import MessageFactory
@@ -31,7 +36,7 @@ class MessageFactoryTests(DITestCase):
 
     def test_uses_parser(self):
         from scrolls.factories.message import MessageFactory
-        self.rsyslogParser.parse.return_value = {'abc': 123}
+        self.rsyslogParser.parse.return_value['abc'] = 123
         with patch('scrolls.factories.message.Message') as Message:
             factory = MessageFactory(self.dependencies)
             factory.parseFrom('rsyslog data string')
