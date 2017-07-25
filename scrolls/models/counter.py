@@ -13,6 +13,8 @@ class Counter(object):
             val = dt.strftime(self.dtBinFormat)
         else:
             val = message.toDict().get(self.name)
+        if val is None:
+            return
         key = (self.name, val)
         if key in self.counts:
             self.counts[key] += 1
