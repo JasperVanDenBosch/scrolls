@@ -8,6 +8,7 @@ Subpackages
 
     scrolls.factories
     scrolls.models
+    scrolls.parsers
     scrolls.repositories
     scrolls.views
 
