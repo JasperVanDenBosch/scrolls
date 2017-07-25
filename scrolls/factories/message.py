@@ -10,6 +10,7 @@ class MessageFactory(object):
     def __init__(self, dependencies, request=None):
         self.security = dependencies.getSecurity()
         self.parser = dependencies.getRSyslogParser()
+        self.clock = dependencies.getClock()
         self.request = request
 
     def parseFrom(self, rsyslogString, withId=None):
@@ -18,6 +19,8 @@ class MessageFactory(object):
         If no pre-made id is passed as `withId`, a new one is generated.
         """
         mdict = self.parser.parse(rsyslogString)
+        if 'datetime' not in mdict:
+            mdict['datetime'] = self.clock.now()
         if withId is None:
             withId = self.createId(mdict)
         mdict.update({'id': withId})

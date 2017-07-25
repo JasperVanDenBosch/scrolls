@@ -26,3 +26,10 @@ class NginxParserTests(DITestCase):
         self.useragentParser.parse.assert_called_with('UAString')
         self.assertIn('foo', mdict)
         self.assertEqual(mdict['foo'], 'bar')
+
+    def test_if_exception_during_parsing_saves_it_and_sets_basics(self):
+        from scrolls.parsers.nginx import NginxParser
+        mdict = NginxParser(self.dependencies).parse('abc')
+        self.assertIn('scrolls.parse-exception', mdict)
+        self.assertEqual('not enough values to unpack (expected 7, got 1)',
+                         mdict['scrolls.parse-exception'])

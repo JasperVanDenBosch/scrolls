@@ -1,12 +1,13 @@
 from ua_parser import user_agent_parser
+from scrolls.parsers.baseparser import BaseParser
 
 
-class UseragentParser(object):
+class UseragentParser(BaseParser):
 
     def __init__(self, dependencies):
         pass
 
-    def parse(self, string):
+    def _parse(self, string):
         uadict = user_agent_parser.Parse(string)
         mdict = {}
         if 'user_agent' in uadict:

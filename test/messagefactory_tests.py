@@ -45,6 +45,16 @@ class MessageFactoryTests(DITestCase):
             self.assertIn('abc', mdict)
             self.assertEqual(mdict['abc'], 123)
 
+    def test_if_parser_provides_no_datetime_use_now(self):
+        from scrolls.factories.message import MessageFactory
+        self.rsyslogParser.parse.return_value = {}
+        with patch('scrolls.factories.message.Message') as Message:
+            factory = MessageFactory(self.dependencies)
+            factory.parseFrom('rsyslog data string')
+            mdict = Message.call_args[0][0]
+            self.assertIn('datetime', mdict)
+            self.assertEqual(mdict['datetime'], self.clock.now())
+
     def test_resourcifies_if_has_request(self):
         from scrolls.factories.message import MessageFactory
         request = Mock()

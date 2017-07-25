@@ -13,6 +13,13 @@ class RSyslogParserTests(DITestCase):
         self.assertEqual(mdict['data'],
                          '<54>1 17-01-11T14:44:37.9+01:00 - - - - -  hallo\n')
 
+    def test_if_exception_during_parsing_saves_it_and_sets_basics(self):
+        from scrolls.parsers.rsyslog import RSyslogParser
+        mdict = RSyslogParser(self.dependencies).parse('abc')
+        self.assertIn('scrolls.parse-exception', mdict)
+        self.assertEqual('list index out of range',
+                         mdict['scrolls.parse-exception'])
+
     def test_dt_syslog(self):
         from scrolls.parsers.rsyslog import RSyslogParser
         data = '<54>1 2017-01-11T14:44:37.992647+01:00 - - - - -  hallo\n'

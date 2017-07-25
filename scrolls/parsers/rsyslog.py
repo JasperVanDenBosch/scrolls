@@ -1,12 +1,13 @@
 import dateutil.parser
+from scrolls.parsers.baseparser import BaseParser
 
 
-class RSyslogParser(object):
+class RSyslogParser(BaseParser):
 
     def __init__(self, dependencies):
         self.nginx = dependencies.getNginxParser()
 
-    def parse(self, string):
+    def _parse(self, string):
         parts = string.split()
         content = ' '.join(parts[7:]).strip()
         dt = dateutil.parser.parse(parts[1])
